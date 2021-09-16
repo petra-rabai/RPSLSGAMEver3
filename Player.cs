@@ -17,53 +17,46 @@ namespace RPSLSGAMEver3
 
         public static char GetPlayerInput()
         {
-            ReadKeyFromKeyboard();
+            ReadKeyboard();
+            while((!gameMenu.ContainsKey(playerPressedkey)) && (!gameItems.ContainsKey(playerPressedkey)))
+            {
+                NotifyPalyerToInvalidAction();
+                ReadKeyboard();
+            }
             
-            if(!gameMenu.ContainsKey(playerPressedkey))
-            {
-                GameMenu();
-                ReadKeyFromKeyboard();
-            }
-            else
-            {
-                switch (playerPressedkey)
-                {
-                    case 'H':
-                        GameHelp();
-                        GetPlayerInput();
-                        break;
-                    case 'Q':
-                        Environment.Exit(0);
-                        break;
-                    case 'B':
-                        GameInitialize();
-                        GetPlayerInput();
-                        break;
-                    case 'E':
-                        GameStart();
-                        ReadKeyFromKeyboard();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            //if (!gameItems.ContainsKey(playerPressedkey))
-            //{
-            //    GameStart();
-            //    ReadKeyFromKeyboard();
-            //}
-
             return playerPressedkey;
         }
 
-        public static char ReadKeyFromKeyboard()
-        {
-            //TODO: handle if the readkey is more than one character
+        public static void ReadKeyboard()
+        { 
             ConsoleKeyInfo Hitkey = Console.ReadKey();
             playerPressedkey = Char.Parse(Hitkey.Key.ToString());
-            return playerPressedkey;
         }
-        
+
+        public static void NotifyPalyerToInvalidAction()
+        {
+            InvalidActionMenuItemHelper();
+            InvalidActionGameItemHelper();
+            WaitForUser();
+        }
+
+        public static void InvalidActionMenuItemHelper()
+        {
+            Console.Clear();
+            Console.WriteLine("\nPlease hit a valid key: \n" + " \nIf you in the Manu you can choose the following key: \n");
+            foreach (KeyValuePair<char, string> gameMenupair in gameMenu)
+            {
+                Console.WriteLine(gameMenupair.Key + " - " + gameMenupair.Value);
+            }
+        }
+
+        public static void InvalidActionGameItemHelper()
+        {
+            Console.WriteLine("\nIf you in the Game you can choose the following key: \n");
+            foreach (KeyValuePair<char, string> gameItempair in gameItems)
+            {
+                Console.WriteLine(gameItempair.Key + " - " + gameItempair.Value);
+            }
+        }
     }
 }

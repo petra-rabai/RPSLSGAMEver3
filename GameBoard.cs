@@ -37,12 +37,13 @@ namespace RPSLSGAMEver3
                 + "Hit the E key to start the game or hit the Q key to quit the game\n"
                 + "If you want to go back to the main screen hit the B key\n");
             WaitForUser();
+            GetPlayerInput();
         }
 
         public static void WaitForUser()
         {
-            Console.WriteLine("Wait for user input: ");
-            Console.Beep();
+            Console.WriteLine("\nWait for user input: ");
+            //Console.Beep();
         }
 
         public static void GameHelp()
@@ -54,6 +55,8 @@ namespace RPSLSGAMEver3
                 + "Spock vaporizes Rock\n" + "Rock crushes Scissors\n" + "\n" + "If you want to go back to the main screen hit the B key\n"
                 + "If you want to quit the game hit the Q key\n");
             WaitForUser();
+            GetPlayerInput();
+            CheckChoosedItems();
         }
 
         public static void GameStart()
@@ -64,28 +67,32 @@ namespace RPSLSGAMEver3
             WaitForUser();
         }
 
-        public static void GameMenu()
-        {
-            Console.Clear();
-            Console.WriteLine("Please hit a valid key: \n" + "Valid keys are: \n" + "H - Help\n" + "E - Start the Game \n" +
-                "Q - Quit the Game\n" + "B - Back to the Main screen\n");
-            WaitForUser();
-        }
-
         public static void CheckChoosedItems()
         {
-            while (!gameItems.ContainsKey(playerPressedkey))
+            switch (playerPressedkey)
             {
-                playerPressedkey = ReadKeyFromKeyboard();
+                case 'H':
+                    GameHelp();
+                    break;
+                case 'Q':
+                    Environment.Exit(0);
+                    break;
+                case 'B':
+                    GameInitialize();
+                    break;
+                case 'E':
+                    GameStart();
+                    break;
+                default:
+                    break;
             }
+
+            playerPressedkey = GetPlayerInput();
             if (playerPressedkey == machinePressedkey)
             {
                 IdentitiesEqual();
-                while (!gameItems.ContainsKey(playerPressedkey))
-                {
-                    GameStart();
-                    playerPressedkey = ReadKeyFromKeyboard();
-                }
+                GameStart();
+                playerPressedkey = GetPlayerInput();
                 machinePressedkey = GetMachineInput();
             }
             
@@ -110,7 +117,6 @@ namespace RPSLSGAMEver3
         {
             Console.Clear();
             Console.WriteLine("Both identities are equal\n Please choose again: \n");
-            GameStart();
         }
 
         public static void ShowGameResult()
@@ -149,6 +155,7 @@ namespace RPSLSGAMEver3
             Console.WriteLine("\n" + "If you want a new game hit the E key \n" + "If you want to quit hit the Q key\n");
             WaitForUser();
             playerPressedkey = GetPlayerInput();
+            CheckChoosedItems();
         }
 
 
