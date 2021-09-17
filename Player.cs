@@ -35,24 +35,18 @@ namespace RPSLSGAMEver3
 
         public static void NotifyPalyerToInvalidAction()
         {
-            InvalidActionMenuItemHelper();
-            InvalidActionGameItemHelper();
+            InvalidActionHelper();
             WaitForUser();
         }
 
-        public static void InvalidActionMenuItemHelper()
+        public static void InvalidActionHelper()
         {
             Console.Clear();
-            Console.WriteLine("\nPlease hit a valid key: \n" + " \nIf you in the Manu you can choose the following key: \n");
+            Console.WriteLine("\nPlease hit a valid key: \n");
             foreach (KeyValuePair<char, string> gameMenupair in gameMenu)
             {
                 Console.WriteLine(gameMenupair.Key + " - " + gameMenupair.Value);
             }
-        }
-
-        public static void InvalidActionGameItemHelper()
-        {
-            Console.WriteLine("\nIf you in the Game you can choose the following key: \n");
             foreach (KeyValuePair<char, string> gameItempair in gameItems)
             {
                 Console.WriteLine(gameItempair.Key + " - " + gameItempair.Value);
