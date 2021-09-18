@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static RPSLSGAMEver3.Machine;
 using static RPSLSGAMEver3.Player;
 
@@ -18,9 +15,6 @@ namespace RPSLSGAMEver3
         {
             LoadDictionarys();
             GameInitialize();
-            CheckChoosedItems();
-            ShowGameResult();
-            GameFinalize();
         }
 
         public static void LoadDictionarys()
@@ -58,13 +52,17 @@ namespace RPSLSGAMEver3
 
         public static void CheckChoosedItems()
         {
+            playerPoint = 0;
+            machinePoint = 0;
+
             playerPressedkey = GetPlayerInput();
             machinePressedkey = GetMachineInput();
 
             if (playerPressedkey == machinePressedkey)
             {
                 IdentitiesEqual();
-                GameStart();
+                InvalidActionHelper();
+                WaitForUser();
                 playerPressedkey = GetPlayerInput();
                 machinePressedkey = GetMachineInput();
             }
@@ -86,18 +84,21 @@ namespace RPSLSGAMEver3
             machineChoosedOption = gameItems[machinePressedkey];
         }
 
-        public static void GameStart()
+        public static void Game()
         {
             Console.Clear();
             Console.WriteLine("Choose an item: \n" + "Paper - P\n" + "Scissor - S\n"
                 + "Rock - R\n" + "Lizard - L\n" + "Spock -V\n");
             WaitForUser();
+            CheckChoosedItems();
+            ShowGameResult();
+            GameFinalize();
         }
 
         public static void IdentitiesEqual()
         {
             Console.Clear();
-            Console.WriteLine("Both identities are equal\n Please choose again: \n");
+            Console.WriteLine("Both identities are equal\n");
         }
 
         public static void GameHelp()
@@ -141,7 +142,7 @@ namespace RPSLSGAMEver3
             playerName = Console.ReadLine();
             string timestamp = DateTime.Now.ToString("MM/dd/yyyy h:mm tt\n");
             string savedresult;
-            string Gameresult = "\n" + "Username: " + playerName + " \n" + "Player point: " + playerPoint + "\n" + "Choosed option by the User: " + playerChoosedOption + "\n"
+            string Gameresult = "\n" + "Username: " + playerName + " \n" + "Player point: " + playerPoint + "\n" + "Choosed option by the Player: " + playerChoosedOption + "\n"
                 + "Machine point: " + machinePoint + "\n" + "Choosed option by the Machine: " + machineChoosedOption + "\n";
             savedresult = "\n" + timestamp + "\n" + Gameresult;
             File.AppendAllText("GameResult.txt", savedresult);
@@ -173,7 +174,7 @@ namespace RPSLSGAMEver3
                     SaveTheResult();
                     break;
                 case 'E':
-                    GameStart();
+                    Game();
                     break;
                 default:
                     break;

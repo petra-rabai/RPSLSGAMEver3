@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static RPSLSGAMEver3.GameBoard;
 
 namespace RPSLSGAMEver3
@@ -10,7 +7,7 @@ namespace RPSLSGAMEver3
     public class Machine
     {
         public static  char machinePressedkey;
-        public static int machinePoint = 0;
+        public static int machinePoint;
         public static string machineChoosedOption = "";
 
         public static char GetMachineInput()

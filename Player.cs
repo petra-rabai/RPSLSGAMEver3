@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static RPSLSGAMEver3.GameBoard;
 
 
@@ -11,7 +8,7 @@ namespace RPSLSGAMEver3
     public class Player
     {
         public static string playerName = "";
-        public static int playerPoint = 0;
+        public static int playerPoint;
         public static char playerPressedkey;
         public static string playerChoosedOption = "";
 
