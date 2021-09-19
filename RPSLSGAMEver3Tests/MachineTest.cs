@@ -13,17 +13,12 @@ namespace RPSLSGAMEver3Tests
         }
 
         [Test]
-        public void CheckMachineValueIsNotEmpty()
+        public void CheckMachinGetValueNotNullAndGetFromTheGameDictionary()
         {
-            var machineKey = GetMachineInput();
+            var machineKey = ' ';
+            machineKey = GetMachineInput();
             Assert.IsNotNull(machineKey);
-        }
-
-        [Test]
-        public void CheckMachinGetValueFromTheGameDictionary()
-        {
-             var machineKey = GetMachineInput();
-             Assert.Contains(machineKey, gameItems.Keys);
+            Assert.Contains(machineKey, gameItems.Keys);
         }
     }
 }
