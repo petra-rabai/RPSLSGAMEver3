@@ -352,12 +352,12 @@ namespace RPSLSGAMEver3Tests
             var expectedMachineChoosedItemValue = " ";
             LoadDictionarys();
             playerPressedkey = 'S';
-            machinePressedkey = 'S';
+            machinePressedkey = 'V';
             expectedPlayerChoosedItemValue = "Scissor";
-            expectedMachineChoosedItemValue = "Scissor";
+            expectedMachineChoosedItemValue = "Spock";
             GetChoosedItemsFromTheGameDictionary();
             Assert.AreEqual(expectedPlayerChoosedItemValue,playerChoosedOption);
-            Assert.AreEqual(expectedMachineChoosedItemValue, playerChoosedOption);
+            Assert.AreEqual(expectedMachineChoosedItemValue, machineChoosedOption);
         }
 
 
