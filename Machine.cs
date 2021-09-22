@@ -4,7 +4,7 @@ using static RPSLSGAMEver3.GameBoard;
 
 namespace RPSLSGAMEver3
 {
-    public class Machine
+    public static class Machine
     {
         public static  char machinePressedkey;
         public static int machinePoint;

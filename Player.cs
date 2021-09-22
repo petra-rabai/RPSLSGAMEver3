@@ -5,7 +5,7 @@ using static RPSLSGAMEver3.GameBoard;
 
 namespace RPSLSGAMEver3
 {
-    public class Player
+    public static class Player
     {
         public static string playerName = "";
         public static int playerPoint;

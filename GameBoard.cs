@@ -6,7 +6,7 @@ using static RPSLSGAMEver3.Player;
 
 namespace RPSLSGAMEver3
 {
-    public class GameBoard
+    public static class GameBoard
     {
         public static Dictionary<char, string> gameMenu = new Dictionary<char, string>();
         public static Dictionary<char, string> gameItems = new Dictionary<char, string>();
