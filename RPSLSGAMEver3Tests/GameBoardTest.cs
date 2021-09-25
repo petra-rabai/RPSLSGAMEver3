@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
-using static RPSLSGAMEver3.Machine;
-using static RPSLSGAMEver3.GameBoard;
-using static RPSLSGAMEver3.Player;
+using RPSLSGAMEver3;
 
 namespace RPSLSGAMEver3Tests
 {

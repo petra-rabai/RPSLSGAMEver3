@@ -8,6 +8,21 @@ namespace RPSLSGAMEver3
     {
         public Dictionary<char, string> gameMenu = new Dictionary<char, string>();
         public Dictionary<char, string> gameItems = new Dictionary<char, string>();
+        public Tuple<string, string> compaerChoosedItems;
+
+
+        //public Tuple<string, string> paperRock = new Tuple<string, string>("Paper", "Rock");
+        //public Tuple<string, string> rockLizard = new Tuple<string, string>("Rock", "Lizard");
+        //public Tuple<string, string> lizardSpock = new Tuple<string, string>("Lizard", "Spock");
+        //public Tuple<string, string> spockScissor = new Tuple<string, string>("Spock", "Scissor");
+        //public Tuple<string, string> scissorLizard = new Tuple<string, string>("Scissor", "Lizard");
+        //public Tuple<string, string> lizardPaper = new Tuple<string, string>("Lizard", "Paper");
+        //public Tuple<string, string> paperSpock = new Tuple<string, string>("Paper", "Spock");
+        //public Tuple<string, string> spockRock = new Tuple<string, string>("Spock", "Rock");
+        //public Tuple<string, string> rockScissor = new Tuple<string, string>("Rock", "Scissor");
+        
+        public Dictionary<Tuple<string, string>,string> winner = new Dictionary<Tuple<string, string>, string>();
+        public string gameWinner = "";
         Player player = new Player();
         Machine machine = new Machine();
 
@@ -58,8 +73,8 @@ namespace RPSLSGAMEver3
             machine.machinePressedkey = machine.GetMachineInput();
 
             CheckChoosedItemsEquality();
-            CheckGameRules();
             GetChoosedItemsFromTheGameDictionary();
+            CheckGameRules();
         }
 
         public void GetChoosedItemsFromTheGameDictionary()
@@ -74,139 +89,178 @@ namespace RPSLSGAMEver3
             machine.machinePoint = 0;
         }
 
-        public static void CheckGameRules()
+        public void CheckGameRules()
         {
-            GameRuleScissorCutPaper();
-            GameRuleLizardEatPaper();
-            GameRuleRockHitLizard();
-            GameRuleScissorCutLizard();
-            GameRuleLizardPoisonedSpock();
-            GameRulePaperDisprovesSpock();
-            GameRuleSpockCrashScissor();
-            GameRuleRockCrushScissor();
-            GameRuleSpockVaporizeRock();
-            GameRulePaperCoverRock();
+            compaerChoosedItems = new Tuple<string, string>(player.playerChoosedOption, machine.machineChoosedOption);
+            if (compaerChoosedItems.Item1 == "Scissor" && compaerChoosedItems.Item2 == "Paper")
+            {
+                winner.Add(compaerChoosedItems, player.playerChoosedOption);
+                player.playerPoint++;
+
+            }
+            else
+            {
+                winner.Add(compaerChoosedItems, machine.machineChoosedOption);
+                machine.machinePoint++;
+            }
+
+
+
+
+            //GameRuleScissorCutPaper();
+            //GameRuleLizardEatPaper();
+            //GameRuleRockHitLizard();
+            //GameRuleScissorCutLizard();
+            //GameRuleLizardPoisonedSpock();
+            //GameRulePaperDisprovesSpock();
+            //GameRuleSpockCrashScissor();
+            //GameRuleRockCrushScissor();
+            //GameRuleSpockVaporizeRock();
+            //GameRulePaperCoverRock();
         }
 
-        public static void GameRulePaperCoverRock()
-        {
-            if (playerPressedkey == 'P' && machinePressedkey == 'R')
-            {
-                playerPoint++;
-            }
-            if (playerPressedkey == 'R' && machinePressedkey == 'P')
-            {
-                machinePoint++;
-            }
-        }
+        //public string ScissorCutPaper(out string gameWinner)
+        //{
+           
+         
+         
+        //}
 
-        public static void GameRuleSpockVaporizeRock()
-        {
-            if (playerPressedkey == 'V' && machinePressedkey == 'R')
-            {
-                playerPoint++;
-            }
-            if (playerPressedkey == 'R' && machinePressedkey == 'V')
-            {
-                machinePoint++;
-            }
-        }
+        //public string LizardEatPaper(out string gameWinner)
+        //{
+        //    gameWinner = "";
+        //    if (player.playerChoosedOption == lizardPaper.Item1)
+        //    {
+        //        player.playerChoosedOption = winner[lizardPaper];
+        //    }
+        //    else
+        //    {
+        //        machine.machineChoosedOption = winner[lizardPaper];
+        //    }
+        //    gameWinner = winner[lizardPaper];
+        //    return gameWinner;
+        //}
 
-        public static void GameRuleRockCrushScissor()
-        {
-            if (playerPressedkey == 'R' && machinePressedkey == 'S')
-            {
-                playerPoint++;
-            }
-            if (playerPressedkey == 'S' && machinePressedkey == 'R')
-            {
-                machinePoint++;
-            }
-        }
 
-        public static void GameRuleSpockCrashScissor()
-        {
-            if (playerPressedkey == 'V' && machinePressedkey == 'S')
-            {
-                playerPoint++;
-            }
-            if (playerPressedkey == 'S' && machinePressedkey == 'V')
-            {
-                machinePoint++;
-            }
-        }
 
-        public static void GameRulePaperDisprovesSpock()
-        {
-            if (playerPressedkey == 'P' && machinePressedkey == 'V')
-            {
-                playerPoint++;
-            }
-            if (playerPressedkey == 'V' && machinePressedkey == 'P')
-            {
-                machinePoint++;
-            }
-        }
 
-        public static void GameRuleLizardPoisonedSpock()
-        {
-            if (playerPressedkey == 'L' && machinePressedkey == 'V')
-            {
-                playerPoint++;
-            }
-            if (playerPressedkey == 'V' && machinePressedkey == 'L')
-            {
-                machinePoint++;
-            }
-        }
+        //public static void GameRulePaperCoverRock()
+        //{
+        //    if (playerPressedkey == 'P' && machinePressedkey == 'R')
+        //    {
+        //        playerPoint++;
+        //    }
+        //    if (playerPressedkey == 'R' && machinePressedkey == 'P')
+        //    {
+        //        machinePoint++;
+        //    }
+        //}
 
-        public static void GameRuleScissorCutLizard()
-        {
-            if (playerPressedkey == 'S' && machinePressedkey == 'L')
-            {
-                playerPoint++;
-            }
-            if (playerPressedkey == 'L' && machinePressedkey == 'S')
-            {
-                machinePoint++;
-            }
-        }
+        //public static void GameRuleSpockVaporizeRock()
+        //{
+        //    if (playerPressedkey == 'V' && machinePressedkey == 'R')
+        //    {
+        //        playerPoint++;
+        //    }
+        //    if (playerPressedkey == 'R' && machinePressedkey == 'V')
+        //    {
+        //        machinePoint++;
+        //    }
+        //}
 
-        public static void GameRuleRockHitLizard()
-        {
-            if (playerPressedkey == 'R' && machinePressedkey == 'L')
-            {
-                playerPoint++;
-            }
-            if (playerPressedkey == 'L' && machinePressedkey == 'R')
-            {
-                machinePoint++;
-            }
-        }
+        //public static void GameRuleRockCrushScissor()
+        //{
+        //    if (playerPressedkey == 'R' && machinePressedkey == 'S')
+        //    {
+        //        playerPoint++;
+        //    }
+        //    if (playerPressedkey == 'S' && machinePressedkey == 'R')
+        //    {
+        //        machinePoint++;
+        //    }
+        //}
 
-        public static void GameRuleLizardEatPaper()
-        {
-            if (playerPressedkey == 'L' && machinePressedkey == 'P')
-            {
-                playerPoint++;
-            }
-            if (playerPressedkey == 'P' && machinePressedkey == 'L')
-            {
-                machinePoint++;
-            }
-        }
+        //public static void GameRuleSpockCrashScissor()
+        //{
+        //    if (playerPressedkey == 'V' && machinePressedkey == 'S')
+        //    {
+        //        playerPoint++;
+        //    }
+        //    if (playerPressedkey == 'S' && machinePressedkey == 'V')
+        //    {
+        //        machinePoint++;
+        //    }
+        //}
 
-        public static void GameRuleScissorCutPaper()
-        {
-            if (playerPressedkey == 'S' && machinePressedkey == 'P')
-            {
-                playerPoint++;
-            }
-            if (playerPressedkey == 'P' && machinePressedkey == 'S')
-            {
-                machinePoint++;
-            }
-        }
+        //public static void GameRulePaperDisprovesSpock()
+        //{
+        //    if (playerPressedkey == 'P' && machinePressedkey == 'V')
+        //    {
+        //        playerPoint++;
+        //    }
+        //    if (playerPressedkey == 'V' && machinePressedkey == 'P')
+        //    {
+        //        machinePoint++;
+        //    }
+        //}
+
+        //public static void GameRuleLizardPoisonedSpock()
+        //{
+        //    if (playerPressedkey == 'L' && machinePressedkey == 'V')
+        //    {
+        //        playerPoint++;
+        //    }
+        //    if (playerPressedkey == 'V' && machinePressedkey == 'L')
+        //    {
+        //        machinePoint++;
+        //    }
+        //}
+
+        //public static void GameRuleScissorCutLizard()
+        //{
+        //    if (playerPressedkey == 'S' && machinePressedkey == 'L')
+        //    {
+        //        playerPoint++;
+        //    }
+        //    if (playerPressedkey == 'L' && machinePressedkey == 'S')
+        //    {
+        //        machinePoint++;
+        //    }
+        //}
+
+        //public static void GameRuleRockHitLizard()
+        //{
+        //    if (playerPressedkey == 'R' && machinePressedkey == 'L')
+        //    {
+        //        playerPoint++;
+        //    }
+        //    if (playerPressedkey == 'L' && machinePressedkey == 'R')
+        //    {
+        //        machinePoint++;
+        //    }
+        //}
+
+        //public static void GameRuleLizardEatPaper()
+        //{
+        //    if (playerPressedkey == 'L' && machinePressedkey == 'P')
+        //    {
+        //        playerPoint++;
+        //    }
+        //    if (playerPressedkey == 'P' && machinePressedkey == 'L')
+        //    {
+        //        machinePoint++;
+        //    }
+        //}
+
+        //public int GameRuleScissorCutPaper(in char itemFirst, in char itemSecond, out int winner )
+        //{
+        //    winner = 0;
+        //    if (itemFirst == 'S' && itemSecond == 'P')
+        //    {
+        //       winner++;
+        //    } 
+        //    return winner;
+        //}
 
         public  void CheckChoosedItemsEquality()
         {

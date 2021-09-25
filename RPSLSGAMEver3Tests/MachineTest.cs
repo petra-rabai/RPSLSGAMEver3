@@ -1,6 +1,5 @@
 using NUnit.Framework;
-using static RPSLSGAMEver3.Machine;
-using static RPSLSGAMEver3.GameBoard;
+using RPSLSGAMEver3;
 
 namespace RPSLSGAMEver3Tests
 {
@@ -9,16 +8,20 @@ namespace RPSLSGAMEver3Tests
         [SetUp]
         public void Setup()
         {
-            LoadDictionarys();
+            GameBoard gameBoard = new GameBoard();
+            
+            gameBoard.LoadDictionarys();
         }
 
         [Test]
         public void CheckMachinGetValueNotNullAndGetFromTheGameDictionary()
         {
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
             var machineKey = ' ';
-            machineKey = GetMachineInput();
+            machineKey = machine.GetMachineInput();
             Assert.IsNotNull(machineKey);
-            Assert.Contains(machineKey, gameItems.Keys);
+            Assert.Contains(machineKey, gameBoard.gameItems.Keys);
         }
     }
 }
