@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using static RPSLSGAMEver3.Machine;
-using static RPSLSGAMEver3.Player;
 
 namespace RPSLSGAMEver3
 {
-    public static class GameBoard
+    public class GameBoard
     {
-        public static Dictionary<char, string> gameMenu = new Dictionary<char, string>();
-        public static Dictionary<char, string> gameItems = new Dictionary<char, string>();
+        public Dictionary<char, string> gameMenu = new Dictionary<char, string>();
+        public Dictionary<char, string> gameItems = new Dictionary<char, string>();
+        Player player = new Player();
+        Machine machine = new Machine();
 
-       public static void GameCore()
+       public void GameCore()
         {
             LoadDictionarys();
             GameInitialize();
         }
 
-        public static void LoadDictionarys()
+        public void LoadDictionarys()
         {
             gameMenu.Add('E', "Start the Game");
             gameMenu.Add('H', "Game Help");
@@ -32,7 +32,7 @@ namespace RPSLSGAMEver3
             gameItems.Add('L', "Lizard");
         }
 
-        public static void GameInitialize()
+        public void GameInitialize()
         {
             Console.Clear();
             Console.Title = "RPSLS GAME";
@@ -40,38 +40,38 @@ namespace RPSLSGAMEver3
                 + "If you need to read the game rules hit the H key\n"
                 + "Hit the E key to start the game or hit the Q key to quit the game\n");
             WaitForUser();
-            playerPressedkey = GetPlayerInput();
+            player.playerPressedkey = player.GetPlayerInput();
             MenuNavigation();
         }
 
-        public static void WaitForUser()
+        public void WaitForUser()
         {
             Console.WriteLine("\nWait for user input: ");
             Console.Beep();
         }
 
-        public static void CheckChoosedItems()
+        public void CheckChoosedItems()
         {
             GamePointsReset();
 
-            playerPressedkey = GetPlayerInput();
-            machinePressedkey = GetMachineInput();
+            player.playerPressedkey = player.GetPlayerInput();
+            machine.machinePressedkey = machine.GetMachineInput();
 
             CheckChoosedItemsEquality();
             CheckGameRules();
             GetChoosedItemsFromTheGameDictionary();
         }
 
-        public static void GetChoosedItemsFromTheGameDictionary()
+        public void GetChoosedItemsFromTheGameDictionary()
         {
-            playerChoosedOption = gameItems[playerPressedkey];
-            machineChoosedOption = gameItems[machinePressedkey];
+            player.playerChoosedOption = gameItems[player.playerPressedkey];
+            machine.machineChoosedOption = gameItems[machine.machinePressedkey];
         }
 
-        public static void GamePointsReset()
+        public  void GamePointsReset()
         {
-            playerPoint = 0;
-            machinePoint = 0;
+            player.playerPoint = 0;
+            machine.machinePoint = 0;
         }
 
         public static void CheckGameRules()
@@ -208,19 +208,19 @@ namespace RPSLSGAMEver3
             }
         }
 
-        public static void CheckChoosedItemsEquality()
+        public  void CheckChoosedItemsEquality()
         {
-            if (playerPressedkey == machinePressedkey)
+            if (player.playerPressedkey == machine.machinePressedkey)
             {
                 IdentitiesEqual();
-                InvalidActionHelper();
+                player.InvalidActionHelper();
                 WaitForUser();
-                playerPressedkey = GetPlayerInput();
-                machinePressedkey = GetMachineInput();
+                player.playerPressedkey = player.GetPlayerInput();
+                machine.machinePressedkey = machine.GetMachineInput();
             }
         }
 
-        public static void Game()
+        public void Game()
         {
             Console.Clear();
             Console.WriteLine("Choose an item: \n" + "Paper - P\n" + "Scissor - S\n"
@@ -231,13 +231,13 @@ namespace RPSLSGAMEver3
             GameFinalize();
         }
 
-        public static void IdentitiesEqual()
+        public void IdentitiesEqual()
         {
             Console.Clear();
             Console.WriteLine("Both identities are equal\n");
         }
 
-        public static void GameHelp()
+        public void GameHelp()
         {
             Console.Clear();
             Console.WriteLine("The Game rules: ");
@@ -246,56 +246,56 @@ namespace RPSLSGAMEver3
                 + "Spock vaporizes Rock\n" + "Rock crushes Scissors\n" + "\n" + "If you want to go back to the main screen hit the B key\n"
                 + "If you want to quit the game hit the Q key\n");
             WaitForUser();
-            playerPressedkey = GetPlayerInput();
+            player.playerPressedkey = player.GetPlayerInput();
             MenuNavigation();
         }
 
-        public static void ShowGameResult()
+        public void ShowGameResult()
         {
             Console.Clear();
-            if (playerPoint > machinePoint)
+            if (player.playerPoint > machine.machinePoint)
             {
-                Console.WriteLine("You are WIN! :)\n" + "Player point: "+ playerPoint + "\n" + "You are choosed the: " + playerChoosedOption + "\n"
-                    + "The machine choosed the: " + machineChoosedOption);
+                Console.WriteLine("You are WIN! :)\n" + "Player point: "+ player.playerPoint + "\n" + "You are choosed the: " + player.playerChoosedOption + "\n"
+                    + "The machine choosed the: " + machine.machineChoosedOption);
             }
             else
             {
-                Console.WriteLine("You are LOSE! :(\n" + "Machine point: " + machinePoint + "\n"  + "You are choosed the: " + playerChoosedOption + "\n"
-                    + "The machine choosed the: " + machineChoosedOption);
+                Console.WriteLine("You are LOSE! :(\n" + "Machine point: " + machine.machinePoint + "\n"  + "You are choosed the: " + player.playerChoosedOption + "\n"
+                    + "The machine choosed the: " + machine.machineChoosedOption);
             }
 
             Console.WriteLine("\nIf you want to save the result hit the C key\n" + "If you want to exit the game without save hit the Q key\n");
             WaitForUser();
-            playerPressedkey = GetPlayerInput();
+            player.playerPressedkey = player.GetPlayerInput();
             MenuNavigation();
         }
 
-        public static void SaveTheResult()
+        public void SaveTheResult()
         {
             Console.Clear();
             Console.WriteLine("Add your name: ");
             WaitForUser();
-            playerName = Console.ReadLine();
+            player.playerName = Console.ReadLine();
             string timestamp = DateTime.Now.ToString("MM/dd/yyyy h:mm tt\n");
             string savedresult;
-            string Gameresult = "\n" + "Username: " + playerName + " \n" + "Player point: " + playerPoint + "\n" + "Choosed option by the Player: " + playerChoosedOption + "\n"
-                + "Machine point: " + machinePoint + "\n" + "Choosed option by the Machine: " + machineChoosedOption + "\n";
+            string Gameresult = "\n" + "Username: " + player.playerName + " \n" + "Player point: " + player.playerPoint + "\n" + "Choosed option by the Player: " + player.playerChoosedOption + "\n"
+                + "Machine point: " + machine.machinePoint + "\n" + "Choosed option by the Machine: " + machine.machineChoosedOption + "\n";
             savedresult = "\n" + timestamp + "\n" + Gameresult;
             File.AppendAllText("GameResult.txt", savedresult);
         }
 
-        public static void GameFinalize()
+        public void GameFinalize()
         {
             Console.Clear();
             Console.WriteLine("\n" + "If you want a new game hit the E key \n" + "If you want to quit hit the Q key\n");
             WaitForUser();
-            playerPressedkey = GetPlayerInput();
+            player.playerPressedkey = player.GetPlayerInput();
             MenuNavigation();
         }
 
-        public static void MenuNavigation()
+        public void MenuNavigation()
         {
-            switch (playerPressedkey)
+            switch (player.playerPressedkey)
             {
                 case 'H':
                     GameHelp();

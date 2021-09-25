@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Linq;
-using static RPSLSGAMEver3.GameBoard;
 
 namespace RPSLSGAMEver3
 {
-    public static class Machine
+    public class Machine
     {
-        public static  char machinePressedkey;
-        public static int machinePoint;
-        public static string machineChoosedOption = "";
+        public  char machinePressedkey;
+        public int machinePoint;
+        public string machineChoosedOption = "";
+        GameBoard gameBoard = new GameBoard();
 
-        public static char GetMachineInput()
+        public char GetMachineInput()
         {
             Random choose = new Random();
-            int chooseHelper = choose.Next(gameItems.Count);
-            char gameDictionaryKey = gameItems.Keys.ElementAt(chooseHelper);
+            int chooseHelper = choose.Next(gameBoard.gameItems.Count);
+            char gameDictionaryKey = gameBoard.gameItems.Keys.ElementAt(chooseHelper);
             machinePressedkey = gameDictionaryKey;
 
             return machinePressedkey;
