@@ -8,9 +8,8 @@ namespace RPSLSGAMEver3
         public  char machinePressedkey;
         public int machinePoint;
         public string machineChoosedOption = "";
-        GameBoard gameBoard = new GameBoard();
 
-        public char GetMachineInput()
+        public char GetMachineInput(in GameBoard gameBoard)
         {
             Random choose = new Random();
             int chooseHelper = choose.Next(gameBoard.gameItems.Count);

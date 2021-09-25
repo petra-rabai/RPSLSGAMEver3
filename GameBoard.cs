@@ -9,27 +9,12 @@ namespace RPSLSGAMEver3
         public Dictionary<char, string> gameMenu = new Dictionary<char, string>();
         public Dictionary<char, string> gameItems = new Dictionary<char, string>();
         public Tuple<string, string> compaerChoosedItems;
-
-
-        //public Tuple<string, string> paperRock = new Tuple<string, string>("Paper", "Rock");
-        //public Tuple<string, string> rockLizard = new Tuple<string, string>("Rock", "Lizard");
-        //public Tuple<string, string> lizardSpock = new Tuple<string, string>("Lizard", "Spock");
-        //public Tuple<string, string> spockScissor = new Tuple<string, string>("Spock", "Scissor");
-        //public Tuple<string, string> scissorLizard = new Tuple<string, string>("Scissor", "Lizard");
-        //public Tuple<string, string> lizardPaper = new Tuple<string, string>("Lizard", "Paper");
-        //public Tuple<string, string> paperSpock = new Tuple<string, string>("Paper", "Spock");
-        //public Tuple<string, string> spockRock = new Tuple<string, string>("Spock", "Rock");
-        //public Tuple<string, string> rockScissor = new Tuple<string, string>("Rock", "Scissor");
-        
         public Dictionary<Tuple<string, string>,string> winner = new Dictionary<Tuple<string, string>, string>();
-        public string gameWinner = "";
-        Player player = new Player();
-        Machine machine = new Machine();
-
        public void GameCore()
         {
+            Player player = new Player();
             LoadDictionarys();
-            GameInitialize();
+            GameInitialize(player);
         }
 
         public void LoadDictionarys()
@@ -47,7 +32,7 @@ namespace RPSLSGAMEver3
             gameItems.Add('L', "Lizard");
         }
 
-        public void GameInitialize()
+        public void GameInitialize(in Player player)
         {
             Console.Clear();
             Console.Title = "RPSLS GAME";
@@ -55,7 +40,7 @@ namespace RPSLSGAMEver3
                 + "If you need to read the game rules hit the H key\n"
                 + "Hit the E key to start the game or hit the Q key to quit the game\n");
             WaitForUser();
-            player.playerPressedkey = player.GetPlayerInput();
+            player.playerPressedkey = player.GetPlayerInput(this);
             MenuNavigation();
         }
 
@@ -92,6 +77,155 @@ namespace RPSLSGAMEver3
         public void CheckGameRules()
         {
             compaerChoosedItems = new Tuple<string, string>(player.playerChoosedOption, machine.machineChoosedOption);
+            ScissorCutPaper();
+            LizardEatPaper();
+            RockHitLizard();
+            ScissorCutLizard();
+            LizardPoisonedSpock();
+            PaperDisposeSpock();
+            SpockBrakeScissor();
+            RockBrakeScissor();
+            SpockVaporizeRock();
+            PaperCoverRock();
+        }
+
+        public void PaperCoverRock()
+        {
+            if (compaerChoosedItems.Item1 == "Paper" && compaerChoosedItems.Item2 == "Rock")
+            {
+                winner.Add(compaerChoosedItems, player.playerChoosedOption);
+                player.playerPoint++;
+
+            }
+            else
+            {
+                winner.Add(compaerChoosedItems, machine.machineChoosedOption);
+                machine.machinePoint++;
+            }
+        }
+
+        public void SpockVaporizeRock()
+        {
+            if (compaerChoosedItems.Item1 == "Spock" && compaerChoosedItems.Item2 == "Rock")
+            {
+                winner.Add(compaerChoosedItems, player.playerChoosedOption);
+                player.playerPoint++;
+
+            }
+            else
+            {
+                winner.Add(compaerChoosedItems, machine.machineChoosedOption);
+                machine.machinePoint++;
+            }
+        }
+
+        public void RockBrakeScissor()
+        {
+            if (compaerChoosedItems.Item1 == "Rock" && compaerChoosedItems.Item2 == "Scissor")
+            {
+                winner.Add(compaerChoosedItems, player.playerChoosedOption);
+                player.playerPoint++;
+
+            }
+            else
+            {
+                winner.Add(compaerChoosedItems, machine.machineChoosedOption);
+                machine.machinePoint++;
+            }
+        }
+
+        public void SpockBrakeScissor()
+        {
+            if (compaerChoosedItems.Item1 == "Spock" && compaerChoosedItems.Item2 == "Scissor")
+            {
+                winner.Add(compaerChoosedItems, player.playerChoosedOption);
+                player.playerPoint++;
+
+            }
+            else
+            {
+                winner.Add(compaerChoosedItems, machine.machineChoosedOption);
+                machine.machinePoint++;
+            }
+        }
+
+        public void PaperDisposeSpock()
+        {
+            if (compaerChoosedItems.Item1 == "Paper" && compaerChoosedItems.Item2 == "Spock")
+            {
+                winner.Add(compaerChoosedItems, player.playerChoosedOption);
+                player.playerPoint++;
+
+            }
+            else
+            {
+                winner.Add(compaerChoosedItems, machine.machineChoosedOption);
+                machine.machinePoint++;
+            }
+        }
+
+        public void LizardPoisonedSpock()
+        {
+            if (compaerChoosedItems.Item1 == "Lizard" && compaerChoosedItems.Item2 == "Spock")
+            {
+                winner.Add(compaerChoosedItems, player.playerChoosedOption);
+                player.playerPoint++;
+
+            }
+            else
+            {
+                winner.Add(compaerChoosedItems, machine.machineChoosedOption);
+                machine.machinePoint++;
+            }
+        }
+
+        public void ScissorCutLizard()
+        {
+            if (compaerChoosedItems.Item1 == "Scissor" && compaerChoosedItems.Item2 == "Lizard")
+            {
+                winner.Add(compaerChoosedItems, player.playerChoosedOption);
+                player.playerPoint++;
+
+            }
+            else
+            {
+                winner.Add(compaerChoosedItems, machine.machineChoosedOption);
+                machine.machinePoint++;
+            }
+        }
+
+        public void RockHitLizard()
+        {
+            if (compaerChoosedItems.Item1 == "Rock" && compaerChoosedItems.Item2 == "Lizard")
+            {
+                winner.Add(compaerChoosedItems, player.playerChoosedOption);
+                player.playerPoint++;
+
+            }
+            else
+            {
+                winner.Add(compaerChoosedItems, machine.machineChoosedOption);
+                machine.machinePoint++;
+            }
+        }
+
+        public void LizardEatPaper()
+        {
+            if (compaerChoosedItems.Item1 == "Lizard" && compaerChoosedItems.Item2 == "Paper")
+            {
+                winner.Add(compaerChoosedItems, player.playerChoosedOption);
+                player.playerPoint++;
+
+            }
+            else
+            {
+                winner.Add(compaerChoosedItems, machine.machineChoosedOption);
+                machine.machinePoint++;
+            }
+        }
+
+        public void ScissorCutPaper()
+        {
             if (compaerChoosedItems.Item1 == "Scissor" && compaerChoosedItems.Item2 == "Paper")
             {
                 winner.Add(compaerChoosedItems, player.playerChoosedOption);
@@ -103,164 +237,7 @@ namespace RPSLSGAMEver3
                 winner.Add(compaerChoosedItems, machine.machineChoosedOption);
                 machine.machinePoint++;
             }
-
-
-
-
-            //GameRuleScissorCutPaper();
-            //GameRuleLizardEatPaper();
-            //GameRuleRockHitLizard();
-            //GameRuleScissorCutLizard();
-            //GameRuleLizardPoisonedSpock();
-            //GameRulePaperDisprovesSpock();
-            //GameRuleSpockCrashScissor();
-            //GameRuleRockCrushScissor();
-            //GameRuleSpockVaporizeRock();
-            //GameRulePaperCoverRock();
         }
-
-        //public string ScissorCutPaper(out string gameWinner)
-        //{
-           
-         
-         
-        //}
-
-        //public string LizardEatPaper(out string gameWinner)
-        //{
-        //    gameWinner = "";
-        //    if (player.playerChoosedOption == lizardPaper.Item1)
-        //    {
-        //        player.playerChoosedOption = winner[lizardPaper];
-        //    }
-        //    else
-        //    {
-        //        machine.machineChoosedOption = winner[lizardPaper];
-        //    }
-        //    gameWinner = winner[lizardPaper];
-        //    return gameWinner;
-        //}
-
-
-
-
-        //public static void GameRulePaperCoverRock()
-        //{
-        //    if (playerPressedkey == 'P' && machinePressedkey == 'R')
-        //    {
-        //        playerPoint++;
-        //    }
-        //    if (playerPressedkey == 'R' && machinePressedkey == 'P')
-        //    {
-        //        machinePoint++;
-        //    }
-        //}
-
-        //public static void GameRuleSpockVaporizeRock()
-        //{
-        //    if (playerPressedkey == 'V' && machinePressedkey == 'R')
-        //    {
-        //        playerPoint++;
-        //    }
-        //    if (playerPressedkey == 'R' && machinePressedkey == 'V')
-        //    {
-        //        machinePoint++;
-        //    }
-        //}
-
-        //public static void GameRuleRockCrushScissor()
-        //{
-        //    if (playerPressedkey == 'R' && machinePressedkey == 'S')
-        //    {
-        //        playerPoint++;
-        //    }
-        //    if (playerPressedkey == 'S' && machinePressedkey == 'R')
-        //    {
-        //        machinePoint++;
-        //    }
-        //}
-
-        //public static void GameRuleSpockCrashScissor()
-        //{
-        //    if (playerPressedkey == 'V' && machinePressedkey == 'S')
-        //    {
-        //        playerPoint++;
-        //    }
-        //    if (playerPressedkey == 'S' && machinePressedkey == 'V')
-        //    {
-        //        machinePoint++;
-        //    }
-        //}
-
-        //public static void GameRulePaperDisprovesSpock()
-        //{
-        //    if (playerPressedkey == 'P' && machinePressedkey == 'V')
-        //    {
-        //        playerPoint++;
-        //    }
-        //    if (playerPressedkey == 'V' && machinePressedkey == 'P')
-        //    {
-        //        machinePoint++;
-        //    }
-        //}
-
-        //public static void GameRuleLizardPoisonedSpock()
-        //{
-        //    if (playerPressedkey == 'L' && machinePressedkey == 'V')
-        //    {
-        //        playerPoint++;
-        //    }
-        //    if (playerPressedkey == 'V' && machinePressedkey == 'L')
-        //    {
-        //        machinePoint++;
-        //    }
-        //}
-
-        //public static void GameRuleScissorCutLizard()
-        //{
-        //    if (playerPressedkey == 'S' && machinePressedkey == 'L')
-        //    {
-        //        playerPoint++;
-        //    }
-        //    if (playerPressedkey == 'L' && machinePressedkey == 'S')
-        //    {
-        //        machinePoint++;
-        //    }
-        //}
-
-        //public static void GameRuleRockHitLizard()
-        //{
-        //    if (playerPressedkey == 'R' && machinePressedkey == 'L')
-        //    {
-        //        playerPoint++;
-        //    }
-        //    if (playerPressedkey == 'L' && machinePressedkey == 'R')
-        //    {
-        //        machinePoint++;
-        //    }
-        //}
-
-        //public static void GameRuleLizardEatPaper()
-        //{
-        //    if (playerPressedkey == 'L' && machinePressedkey == 'P')
-        //    {
-        //        playerPoint++;
-        //    }
-        //    if (playerPressedkey == 'P' && machinePressedkey == 'L')
-        //    {
-        //        machinePoint++;
-        //    }
-        //}
-
-        //public int GameRuleScissorCutPaper(in char itemFirst, in char itemSecond, out int winner )
-        //{
-        //    winner = 0;
-        //    if (itemFirst == 'S' && itemSecond == 'P')
-        //    {
-        //       winner++;
-        //    } 
-        //    return winner;
-        //}
 
         public  void CheckChoosedItemsEquality()
         {
@@ -309,12 +286,12 @@ namespace RPSLSGAMEver3
             Console.Clear();
             if (player.playerPoint > machine.machinePoint)
             {
-                Console.WriteLine("You are WIN! :)\n" + "Player point: "+ player.playerPoint + "\n" + "You are choosed the: " + player.playerChoosedOption + "\n"
+                Console.WriteLine("You are WIN! :)\n" + winner.ToString() + "Player point: "+ player.playerPoint + "\n" + "You are choosed the: " + player.playerChoosedOption + "\n"
                     + "The machine choosed the: " + machine.machineChoosedOption);
             }
             else
             {
-                Console.WriteLine("You are LOSE! :(\n" + "Machine point: " + machine.machinePoint + "\n"  + "You are choosed the: " + player.playerChoosedOption + "\n"
+                Console.WriteLine("You are LOSE! :(\n" + winner.ToString() + "Machine point: " + machine.machinePoint + "\n"  + "You are choosed the: " + player.playerChoosedOption + "\n"
                     + "The machine choosed the: " + machine.machineChoosedOption);
             }
 

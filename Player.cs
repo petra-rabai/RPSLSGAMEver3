@@ -10,14 +10,15 @@ namespace RPSLSGAMEver3
         public int playerPoint;
         public char playerPressedkey;
         public string playerChoosedOption = "";
-        GameBoard gameBoard = new GameBoard();
+        
 
-        public char GetPlayerInput()
+        public char GetPlayerInput(in GameBoard gameBoard)
         {
+            
             ReadKeyboard();
             while((!gameBoard.gameMenu.ContainsKey(playerPressedkey)) && (!gameBoard.gameItems.ContainsKey(playerPressedkey)))
             {
-                NotifyPalyerToInvalidAction();
+                NotifyPalyerToInvalidAction(gameBoard);
                 ReadKeyboard();
             }
             
@@ -30,14 +31,16 @@ namespace RPSLSGAMEver3
             playerPressedkey = Char.Parse(Hitkey.Key.ToString());
         }
 
-        public void NotifyPalyerToInvalidAction()
+        public void NotifyPalyerToInvalidAction(in GameBoard gameBoard)
         {
-            InvalidActionHelper();
+            
+            InvalidActionHelper(gameBoard);
             gameBoard.WaitForUser();
         }
 
-        public void InvalidActionHelper()
+        public void InvalidActionHelper(in GameBoard gameBoard)
         {
+            
             Console.Clear();
             Console.WriteLine("\nPlease hit a valid key: \n");
             foreach (KeyValuePair<char, string> gameMenupair in gameBoard.gameMenu)
