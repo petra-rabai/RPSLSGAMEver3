@@ -78,16 +78,63 @@ namespace RPSLSGAMEver3
         public void CheckGameRules(in Player player, Machine machine)
         {
             compareChoosedItems = new Tuple<string, string>(player.playerChoosedOption, machine.machineChoosedOption);
-            ScissorCutPaper(player, machine);
-            LizardEatPaper(player, machine);
-            RockHitLizard(player, machine);
-            ScissorCutLizard(player, machine);
-            LizardPoisonedSpock(player, machine);
-            PaperDisposeSpock(player, machine);
-            SpockBrakeScissor(player, machine);
-            RockBrakeScissor(player, machine);
-            SpockVaporizeRock(player, machine);
-            PaperCoverRock(player,machine);
+            switch (compareChoosedItems.Item1)
+            {
+                case "Scissor":
+                    if(compareChoosedItems.Item2 == "Paper")
+                    {
+                        ScissorCutPaper(player, machine);
+                    }
+                    else if (compareChoosedItems.Item2 == "Lizard")
+                    {
+                        ScissorCutLizard(player, machine);
+                    }
+
+                    break;
+                case "Lizard":
+                    if (compareChoosedItems.Item2 == "Paper")
+                    {
+                        LizardEatPaper(player, machine);
+                    }
+                    else if (compareChoosedItems.Item2 == "Spock")
+                    {
+                        LizardPoisonedSpock(player, machine);
+                    }
+                    break;
+                case "Rock":
+                    if (compareChoosedItems.Item2 == "Lizard")
+                    {
+                        RockHitLizard(player, machine);
+                    }
+                    else if (compareChoosedItems.Item2 == "Scissor")
+                    {
+                        RockBrakeScissor(player, machine);
+                    }
+                    break;
+                case "Spock":
+                    if (compareChoosedItems.Item2 == "Scissor")
+                    {
+                        SpockBrakeScissor(player, machine);
+                    }
+                    else if (compareChoosedItems.Item2 == "Rock")
+                    {
+                        SpockVaporizeRock(player, machine);
+                    }
+                    break;
+                case "Paper":
+                    if (compareChoosedItems.Item2 == "Spock")
+                    {
+                        PaperDisposeSpock(player, machine);
+                    }
+                    else if (compareChoosedItems.Item2 == "Rock")
+                    {
+                        PaperCoverRock(player, machine);
+                    }
+                    break;
+
+                default:
+                    break;
+            }            
         }
 
         public void PaperCoverRock(in Player player, Machine machine)
