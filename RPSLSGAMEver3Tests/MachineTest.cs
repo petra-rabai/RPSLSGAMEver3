@@ -19,7 +19,7 @@ namespace RPSLSGAMEver3Tests
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
             var machineKey = ' ';
-            machineKey = machine.GetMachineInput();
+            machineKey = machine.GetMachineInput(gameBoard);
             Assert.IsNotNull(machineKey);
             Assert.Contains(machineKey, gameBoard.gameItems.Keys);
         }

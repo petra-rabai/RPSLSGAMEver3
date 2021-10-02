@@ -8,43 +8,53 @@ namespace RPSLSGAMEver3Tests
         [SetUp]
         public void Setup()
         {
-            playerPressedkey = ' ';
-            machinePressedkey = ' ';
-            playerPoint = 0;
-            machinePoint = 0;
-            playerChoosedOption = " ";
-            machineChoosedOption = " ";
-            gameMenu.Clear();
-            gameItems.Clear();
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
+            player.playerPressedkey = ' ';
+            machine.machinePressedkey = ' ';
+            player.playerPoint = 0;
+            machine.machinePoint = 0;
+            player.playerChoosedOption = " ";
+            machine.machineChoosedOption = " ";
+            gameBoard.gameMenu.Clear();
+            gameBoard.gameItems.Clear();
         }
 
         [Test]
         public void CheckDictionarysLoadSuccess()
         {
+            GameBoard gameBoard = new GameBoard();
             var expectedGameMenuCount = 0;
             var expectedGameItemCount = 0;
-            LoadDictionarys();
+            gameBoard.LoadDictionarys();
             expectedGameMenuCount = 5;
             expectedGameItemCount = 5;
-            Assert.AreEqual(expectedGameMenuCount,gameMenu.Count);
-            Assert.AreEqual(expectedGameItemCount, gameItems.Count);
+            Assert.AreEqual(expectedGameMenuCount, gameBoard.gameMenu.Count);
+            Assert.AreEqual(expectedGameItemCount, gameBoard.gameItems.Count);
 
         }
 
         [Test]
         public void CheckGamePointsResetSuccess()
         {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
             var expectedPlayerPoint = 1;
             var expectedMachinePoint = 1;
 
-            GamePointsReset();
-            Assert.AreNotEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreNotEqual(expectedMachinePoint, playerPoint);
+            gameBoard.GamePointsReset(player,machine);
+            Assert.AreNotEqual(expectedPlayerPoint, player.playerPoint);
+            Assert.AreNotEqual(expectedMachinePoint, player.playerPoint);
         }
 
         [Test]
         public void CheckPaperCoverRockPlayerWin()
         {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
             var expectedPlayerPoint = 0;
             var expectedMachinePoint = 0;
 
