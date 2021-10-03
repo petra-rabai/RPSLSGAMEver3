@@ -49,329 +49,120 @@ namespace RPSLSGAMEver3Tests
             Assert.AreNotEqual(expectedMachinePoint, player.playerPoint);
         }
 
+        [TestCase('P', 'R', "Paper", "Rock")]
+        [TestCase('V', 'R', "Spock", "Rock")]
+        [TestCase('S', 'P', "Scissor", "Paper")]
+        [TestCase('R', 'S', "Rock", "Scissor")]
+        [TestCase('V', 'S', "Spock", "Scissor")]
+        [TestCase('P', 'V', "Paper", "Spock")]
+        [TestCase('L', 'V', "Lizard", "Spock")]
+        [TestCase('S', 'L', "Scissor", "Lizard")]
+        [TestCase('R', 'L', "Rock", "Lizard")]
+        [TestCase('L', 'P', "Lizard", "Paper")]
+        [TestCase('R', 'P', "Rock", "Paper")]
+        [TestCase('R', 'V', "Rock", "Spock")]
+        [TestCase('P', 'S', "Paper", "Scissor")]
+        [TestCase('S', 'R', "Scissor", "Rock")]
+        [TestCase('S', 'V', "Scissor", "Spock")]
+        [TestCase('V', 'P', "Spock", "Paper")]
+        [TestCase('V', 'L', "Spock", "Lizard")]
+        [TestCase('L', 'S', "Lizard", "Scissor")]
+        [TestCase('L', 'R', "Lizard", "Rock")]
+        [TestCase('P', 'L', "Paper", "Lizard")]
         [Test]
-        public void CheckPaperCoverRockPlayerWin()
+        public void CheckChoosedItemValueGetFromGameDictionary( char keyOne, char keyTwo, string optionOne,string optionTwo )
+        {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
+            var expectedPlayerChoosedItemValue = " ";
+            var expectedMachineChoosedItemValue = " ";
+            gameBoard.LoadDictionarys();
+            player.playerPressedkey = keyOne;
+            machine.machinePressedkey = keyTwo;
+            expectedPlayerChoosedItemValue = optionOne;
+            expectedMachineChoosedItemValue = optionTwo;
+            gameBoard.GetChoosedItemsFromTheGameDictionary(player,machine);
+            Assert.AreEqual(expectedPlayerChoosedItemValue,player.playerChoosedOption);
+            Assert.AreEqual(expectedMachineChoosedItemValue, machine.machineChoosedOption);
+        }
+
+        [TestCase("Paper", "Rock")]
+        [TestCase("Spock", "Rock")]
+        [TestCase("Scissor", "Paper")]
+        [TestCase("Rock", "Scissor")]
+        [TestCase("Spock", "Scissor")]
+        [TestCase("Paper", "Spock")]
+        [TestCase("Lizard", "Spock")]
+        [TestCase("Scissor", "Lizard")]
+        [TestCase("Rock", "Lizard")]
+        [TestCase("Lizard", "Paper")]
+        [TestCase("Rock", "Paper")]
+        [TestCase("Rock", "Spock")]
+        [TestCase("Paper", "Scissor")]
+        [TestCase("Scissor", "Rock")]
+        [TestCase("Scissor", "Spock")]
+        [TestCase("Spock", "Paper")]
+        [TestCase("Spock", "Lizard")]
+        [TestCase("Lizard", "Scissor")]
+        [TestCase("Lizard", "Rock")]
+        [TestCase("Paper", "Lizard")]
+        [Test]
+        public void CheckCompareChoosedItemsLoadSuccess(string optionOne, string optionTwo)
+        {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
+            gameBoard.LoadDictionarys();
+            var expectedChoosedItemOne = optionOne;
+            var expectedChoosedItemTwo = optionTwo;
+            player.playerChoosedOption = optionOne;
+            machine.machineChoosedOption = optionTwo;
+            gameBoard.LoadCompareChoosedItemsTuple(player, machine);
+            Assert.AreEqual(expectedChoosedItemOne, gameBoard.compareChoosedItems.Item1);
+            Assert.AreEqual(expectedChoosedItemTwo, gameBoard.compareChoosedItems.Item2);
+        }
+
+        [TestCase("Paper", "Rock")]
+        [TestCase("Spock", "Rock")]
+        [TestCase("Scissor", "Paper")]
+        [TestCase("Rock", "Scissor")]
+        [TestCase("Spock", "Scissor")]
+        [TestCase("Paper", "Spock")]
+        [TestCase("Lizard", "Spock")]
+        [TestCase("Scissor", "Lizard")]
+        [TestCase("Rock", "Lizard")]
+        [TestCase("Lizard", "Paper")]
+        [TestCase("Rock", "Paper")]
+        [TestCase("Rock", "Spock")]
+        [TestCase("Paper", "Scissor")]
+        [TestCase("Scissor", "Rock")]
+        [TestCase("Scissor", "Spock")]
+        [TestCase("Spock", "Paper")]
+        [TestCase("Spock", "Lizard")]
+        [TestCase("Lizard", "Scissor")]
+        [TestCase("Lizard", "Rock")]
+        [TestCase("Paper", "Lizard")]
+        [Test]
+        
+        public void CheckGameRulesSuccess(string optionOne, string optionTwo)
         {
             Player player = new Player();
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
             var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'P';
-            machinePressedkey = 'R';
-            
-            GameRulePaperCoverRock();
-            expectedPlayerPoint = 1;
-            Assert.AreEqual(expectedPlayerPoint,playerPoint);
-            Assert.AreEqual(expectedMachinePoint,machinePoint);
+            var expectedMachinePoint= 0;
+            player.playerChoosedOption = optionOne;
+            machine.machineChoosedOption = optionTwo;
+            gameBoard.LoadCompareChoosedItemsTuple(player, machine);
+            optionOne = gameBoard.compareChoosedItems.Item1;
+            optionTwo = gameBoard.compareChoosedItems.Item2;
+            gameBoard.CheckTheRules(player, machine,optionOne,optionTwo);
+            expectedPlayerPoint = player.playerPoint;
+            expectedMachinePoint = machine.machinePoint;
+            Assert.AreEqual(expectedPlayerPoint, player.playerPoint);
+            Assert.AreEqual(expectedMachinePoint, machine.machinePoint);
+            Assert.AreNotEqual(expectedPlayerPoint, expectedMachinePoint);
         }
-
-        [Test]
-        public void CheckPaperCoverRockMachineWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'R';
-            machinePressedkey = 'P';
-
-            GameRulePaperCoverRock();
-            expectedMachinePoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckSpockVaporizeRockPlayerWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'V';
-            machinePressedkey = 'R';
-
-            GameRuleSpockVaporizeRock();
-            expectedPlayerPoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckSpockVaporizeRockMachineWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'R';
-            machinePressedkey = 'V';
-
-            GameRuleSpockVaporizeRock();
-            expectedMachinePoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckRockCrushScissorPlayerWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'R';
-            machinePressedkey = 'S';
-
-            GameRuleRockCrushScissor();
-            expectedPlayerPoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckRockCrushScissorMachineWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'S';
-            machinePressedkey = 'R';
-
-            GameRuleRockCrushScissor();
-            expectedMachinePoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckSpockCrashScissorPlayerWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'V';
-            machinePressedkey = 'S';
-
-            GameRuleSpockCrashScissor();
-            expectedPlayerPoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckSpockCrashScissorMachineWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'S';
-            machinePressedkey = 'V';
-
-            GameRuleSpockCrashScissor();
-            expectedMachinePoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-
-        [Test]
-        public void CheckPaperDisprovesSpockPlayerWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'P';
-            machinePressedkey = 'V';
-
-            GameRulePaperDisprovesSpock();
-            expectedPlayerPoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckPaperDisprovesSpockMachineWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'V';
-            machinePressedkey = 'P';
-
-            GameRulePaperDisprovesSpock();
-            expectedMachinePoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckLizardPoisonedSpockPlayerWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'L';
-            machinePressedkey = 'V';
-
-            GameRuleLizardPoisonedSpock();
-            expectedPlayerPoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckLizardPoisonedSpockMachineWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'V';
-            machinePressedkey = 'L';
-
-            GameRuleLizardPoisonedSpock();
-            expectedMachinePoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckScissorCutLizardPlayerWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'S';
-            machinePressedkey = 'L';
-
-            GameRuleScissorCutLizard();
-            expectedPlayerPoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckScissorCutLizardMachineWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'L';
-            machinePressedkey = 'S';
-
-            GameRuleScissorCutLizard();
-            expectedMachinePoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckRockHitLizardPlayerWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'R';
-            machinePressedkey = 'L';
-
-            GameRuleRockHitLizard();
-            expectedPlayerPoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckRockHitLizardMachineWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'L';
-            machinePressedkey = 'R';
-
-            GameRuleRockHitLizard();
-            expectedMachinePoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckScissorCutPaperPlayerWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'S';
-            machinePressedkey = 'P';
-
-            GameRuleScissorCutPaper();
-            expectedPlayerPoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckScissorCutPaperMachineWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'P';
-            machinePressedkey = 'S';
-
-            GameRuleScissorCutPaper();
-            expectedMachinePoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckLizardEatPaperPlayerWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'L';
-            machinePressedkey = 'P';
-
-            GameRuleLizardEatPaper();
-            expectedPlayerPoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckLizardEatPaperMachineWin()
-        {
-            var expectedPlayerPoint = 0;
-            var expectedMachinePoint = 0;
-
-            playerPressedkey = 'P';
-            machinePressedkey = 'L';
-
-            GameRuleLizardEatPaper();
-            expectedMachinePoint = 1;
-            Assert.AreEqual(expectedPlayerPoint, playerPoint);
-            Assert.AreEqual(expectedMachinePoint, machinePoint);
-        }
-
-        [Test]
-        public void CheckChoosedItemValueGetFromGameDictionary()
-        {
-            var expectedPlayerChoosedItemValue = " ";
-            var expectedMachineChoosedItemValue = " ";
-            LoadDictionarys();
-            playerPressedkey = 'S';
-            machinePressedkey = 'V';
-            expectedPlayerChoosedItemValue = "Scissor";
-            expectedMachineChoosedItemValue = "Spock";
-            GetChoosedItemsFromTheGameDictionary();
-            Assert.AreEqual(expectedPlayerChoosedItemValue,playerChoosedOption);
-            Assert.AreEqual(expectedMachineChoosedItemValue, machineChoosedOption);
-        }
-
-
-
-
-
-
     }
 }

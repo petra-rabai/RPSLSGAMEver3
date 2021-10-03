@@ -60,7 +60,7 @@ namespace RPSLSGAMEver3
 
             CheckChoosedItemsEquality(player, machine);
             GetChoosedItemsFromTheGameDictionary(player,machine);
-            CheckGameRules(player, machine);
+            GameRules(player, machine);
         }
 
         public void GetChoosedItemsFromTheGameDictionary(in Player player, Machine machine)
@@ -75,218 +75,31 @@ namespace RPSLSGAMEver3
             machine.machinePoint = 0;
         }
 
-        public void CheckGameRules(in Player player, Machine machine)
+        public void GameRules(in Player player, Machine machine)
+        {
+            LoadCompareChoosedItemsTuple(player, machine);
+            CheckTheRules(player, machine, compareChoosedItems.Item1, compareChoosedItems.Item2);
+        }
+
+        public void LoadCompareChoosedItemsTuple(Player player, Machine machine)
         {
             compareChoosedItems = new Tuple<string, string>(player.playerChoosedOption, machine.machineChoosedOption);
-            switch (compareChoosedItems.Item1)
-            {
-                case "Scissor":
-                    if(compareChoosedItems.Item2 == "Paper")
-                    {
-                        ScissorCutPaper(player, machine);
-                    }
-                    else if (compareChoosedItems.Item2 == "Lizard")
-                    {
-                        ScissorCutLizard(player, machine);
-                    }
-
-                    break;
-                case "Lizard":
-                    if (compareChoosedItems.Item2 == "Paper")
-                    {
-                        LizardEatPaper(player, machine);
-                    }
-                    else if (compareChoosedItems.Item2 == "Spock")
-                    {
-                        LizardPoisonedSpock(player, machine);
-                    }
-                    break;
-                case "Rock":
-                    if (compareChoosedItems.Item2 == "Lizard")
-                    {
-                        RockHitLizard(player, machine);
-                    }
-                    else if (compareChoosedItems.Item2 == "Scissor")
-                    {
-                        RockBrakeScissor(player, machine);
-                    }
-                    break;
-                case "Spock":
-                    if (compareChoosedItems.Item2 == "Scissor")
-                    {
-                        SpockBrakeScissor(player, machine);
-                    }
-                    else if (compareChoosedItems.Item2 == "Rock")
-                    {
-                        SpockVaporizeRock(player, machine);
-                    }
-                    break;
-                case "Paper":
-                    if (compareChoosedItems.Item2 == "Spock")
-                    {
-                        PaperDisposeSpock(player, machine);
-                    }
-                    else if (compareChoosedItems.Item2 == "Rock")
-                    {
-                        PaperCoverRock(player, machine);
-                    }
-                    break;
-
-                default:
-                    break;
-            }            
         }
 
-        public void PaperCoverRock(in Player player, Machine machine)
+        public void CheckTheRules(in Player player, Machine machine, string optionOne, string optionTwo)
         {
-            if (compareChoosedItems.Item1 == "Paper" && compareChoosedItems.Item2 == "Rock")
+            if (optionOne == player.playerChoosedOption && optionTwo == machine.machineChoosedOption)
             {
-                winner.Add(compareChoosedItems, player.playerChoosedOption);
+                winner.Add(compareChoosedItems, optionOne);
                 player.playerPoint++;
 
             }
-            else if (compareChoosedItems.Item1 == "Rock" && compareChoosedItems.Item2 == "Paper")
+            else if (optionOne == machine.machineChoosedOption && optionTwo == player.playerChoosedOption)
             {
-                winner.Add(compareChoosedItems, machine.machineChoosedOption);
+                winner.Add(compareChoosedItems, optionTwo);
                 machine.machinePoint++;
             }
         }
-
-        public void SpockVaporizeRock(in Player player, Machine machine)
-        {
-            if (compareChoosedItems.Item1 == "Spock" && compareChoosedItems.Item2 == "Rock")
-            {
-                winner.Add(compareChoosedItems, player.playerChoosedOption);
-                player.playerPoint++;
-
-            }
-            else if (compareChoosedItems.Item1 == "Rock" && compareChoosedItems.Item2 == "Spock")
-            {
-                winner.Add(compareChoosedItems, machine.machineChoosedOption);
-                machine.machinePoint++;
-            }
-        }
-
-        public void RockBrakeScissor(in Player player, Machine machine)
-        {
-            if (compareChoosedItems.Item1 == "Rock" && compareChoosedItems.Item2 == "Scissor")
-            {
-                winner.Add(compareChoosedItems, player.playerChoosedOption);
-                player.playerPoint++;
-
-            }
-            else if (compareChoosedItems.Item1 == "Scissor" && compareChoosedItems.Item2 == "Rock")
-            {
-                winner.Add(compareChoosedItems, machine.machineChoosedOption);
-                machine.machinePoint++;
-            }
-        }
-
-        public void SpockBrakeScissor(in Player player, Machine machine)
-        {
-            if (compareChoosedItems.Item1 == "Spock" && compareChoosedItems.Item2 == "Scissor")
-            {
-                winner.Add(compareChoosedItems, player.playerChoosedOption);
-                player.playerPoint++;
-
-            }
-            else if (compareChoosedItems.Item1 == "Scissor" && compareChoosedItems.Item2 == "Spock")
-            {
-                winner.Add(compareChoosedItems, machine.machineChoosedOption);
-                machine.machinePoint++;
-            }
-        }
-
-        public void PaperDisposeSpock(in Player player, Machine machine)
-        {
-            if (compareChoosedItems.Item1 == "Paper" && compareChoosedItems.Item2 == "Spock")
-            {
-                winner.Add(compareChoosedItems, player.playerChoosedOption);
-                player.playerPoint++;
-
-            }
-            else if (compareChoosedItems.Item1 == "Spock" && compareChoosedItems.Item2 == "Paper")
-            {
-                winner.Add(compareChoosedItems, machine.machineChoosedOption);
-                machine.machinePoint++;
-            }
-        }
-
-        public void LizardPoisonedSpock(in Player player, Machine machine)
-        {
-            if (compareChoosedItems.Item1 == "Lizard" && compareChoosedItems.Item2 == "Spock")
-            {
-                winner.Add(compareChoosedItems, player.playerChoosedOption);
-                player.playerPoint++;
-
-            }
-            else if (compareChoosedItems.Item1 == "Spock" && compareChoosedItems.Item2 == "Lizard")
-            {
-                winner.Add(compareChoosedItems, machine.machineChoosedOption);
-                machine.machinePoint++;
-            }
-        }
-
-        public void ScissorCutLizard(in Player player, Machine machine)
-        {
-            if (compareChoosedItems.Item1 == "Scissor" && compareChoosedItems.Item2 == "Lizard")
-            {
-                winner.Add(compareChoosedItems, player.playerChoosedOption);
-                player.playerPoint++;
-
-            }
-            else if (compareChoosedItems.Item1 == "Lizard" && compareChoosedItems.Item2 == "Scissor")
-            {
-                winner.Add(compareChoosedItems, machine.machineChoosedOption);
-                machine.machinePoint++;
-            }
-        }
-
-        public void RockHitLizard(in Player player, Machine machine)
-        {
-            if (compareChoosedItems.Item1 == "Rock" && compareChoosedItems.Item2 == "Lizard")
-            {
-                winner.Add(compareChoosedItems, player.playerChoosedOption);
-                player.playerPoint++;
-
-            }
-            else if (compareChoosedItems.Item1 == "Lizard" && compareChoosedItems.Item2 == "Rock")
-            {
-                winner.Add(compareChoosedItems, machine.machineChoosedOption);
-                machine.machinePoint++;
-            }
-        }
-
-        public void LizardEatPaper(in Player player, Machine machine)
-        {
-            if (compareChoosedItems.Item1 == "Lizard" && compareChoosedItems.Item2 == "Paper")
-            {
-                winner.Add(compareChoosedItems, player.playerChoosedOption);
-                player.playerPoint++;
-
-            }
-            else if (compareChoosedItems.Item1 == "Paper" && compareChoosedItems.Item2 == "Lizard")
-            {
-                winner.Add(compareChoosedItems, machine.machineChoosedOption);
-                machine.machinePoint++;
-            }
-        }
-
-        public void ScissorCutPaper(in Player player, Machine machine)
-        {
-            if (compareChoosedItems.Item1 == "Scissor" && compareChoosedItems.Item2 == "Paper")
-            {
-                winner.Add(compareChoosedItems, player.playerChoosedOption);
-                player.playerPoint++;
-
-            }
-            else if (compareChoosedItems.Item1 == "Paper" && compareChoosedItems.Item2 == "Scissor")
-            {
-                winner.Add(compareChoosedItems, machine.machineChoosedOption);
-                machine.machinePoint++;
-            }
-        }
-
         public  void CheckChoosedItemsEquality(in Player player, Machine machine)
         {
             if (player.playerPressedkey == machine.machinePressedkey)
@@ -334,13 +147,13 @@ namespace RPSLSGAMEver3
             Console.Clear();
             if (player.playerPoint > machine.machinePoint)
             {
-                Console.WriteLine("You are WIN! :)\n" + winner.ToString() + "Player point: "+ player.playerPoint + "\n" + "You are choosed the: " + player.playerChoosedOption + "\n"
-                    + "The machine choosed the: " + machine.machineChoosedOption);
+                Console.WriteLine("You are WIN! :)\n" + "The winner is: " + winner[compareChoosedItems]+ "\n" + "Player point: "+ player.playerPoint + "\n" + "You are choosed: " + player.playerChoosedOption + "\n"
+                    + "The machine choosed: " + machine.machineChoosedOption);
             }
             else
             {
-                Console.WriteLine("You are LOSE! :(\n" + winner.ToString() + "Machine point: " + machine.machinePoint + "\n"  + "You are choosed the: " + player.playerChoosedOption + "\n"
-                    + "The machine choosed the: " + machine.machineChoosedOption);
+                Console.WriteLine("You are LOSE! :(\n" + "The winner is: " + winner[compareChoosedItems] + "\n" + "Machine point: " + machine.machinePoint + "\n"  + "You are choosed: " + player.playerChoosedOption + "\n"
+                    + "The machine choosed: " + machine.machineChoosedOption);
             }
 
             Console.WriteLine("\nIf you want to save the result hit the C key\n" + "If you want to exit the game without save hit the Q key\n");

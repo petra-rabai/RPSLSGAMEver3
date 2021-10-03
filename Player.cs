@@ -45,11 +45,11 @@ namespace RPSLSGAMEver3
             Console.WriteLine("\nPlease hit a valid key: \n");
             foreach (KeyValuePair<char, string> gameMenupair in gameBoard.gameMenu)
             {
-                Console.WriteLine(gameMenupair.Key + " - " + gameMenupair.Value);
+                Console.WriteLine(gameMenupair.Key + " - " + gameMenupair.Value + "\n");
             }
             foreach (KeyValuePair<char, string> gameItempair in gameBoard.gameItems)
             {
-                Console.WriteLine(gameItempair.Key + " - " + gameItempair.Value);
+                Console.WriteLine(gameItempair.Key + " - " + gameItempair.Value + "\n");
             }
         }
     }

@@ -5,20 +5,13 @@ namespace RPSLSGAMEver3Tests
 {
     public class MachineTests
     {
-        [SetUp]
-        public void Setup()
-        {
-            GameBoard gameBoard = new GameBoard();
-            
-            gameBoard.LoadDictionarys();
-        }
-
         [Test]
         public void CheckMachinGetValueNotNullAndGetFromTheGameDictionary()
         {
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
             var machineKey = ' ';
+            gameBoard.LoadDictionarys();
             machineKey = machine.GetMachineInput(gameBoard);
             Assert.IsNotNull(machineKey);
             Assert.Contains(machineKey, gameBoard.gameItems.Keys);
