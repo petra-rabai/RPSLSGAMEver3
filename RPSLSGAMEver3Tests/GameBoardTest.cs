@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using RPSLSGAMEver3;
 
+
 namespace RPSLSGAMEver3Tests
 {
     public class GameBoardTests
@@ -10,28 +11,29 @@ namespace RPSLSGAMEver3Tests
         {
             Player player = new Player();
             Machine machine = new Machine();
-            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
             player.playerPressedkey = ' ';
             machine.machinePressedkey = ' ';
             player.playerPoint = 0;
             machine.machinePoint = 0;
             player.playerChoosedOption = " ";
             machine.machineChoosedOption = " ";
-            gameBoard.gameMenu.Clear();
-            gameBoard.gameItems.Clear();
+            gameContent.gameMenu.Clear();
+            gameContent.gameItems.Clear();
         }
 
         [Test]
-        public void CheckDictionarysLoadSuccess()
+        public void CheckDictionarysCount()
         {
-            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
             var expectedGameMenuCount = 0;
             var expectedGameItemCount = 0;
-            gameBoard.LoadDictionarys();
+            
             expectedGameMenuCount = 5;
             expectedGameItemCount = 5;
-            Assert.AreEqual(expectedGameMenuCount, gameBoard.gameMenu.Count);
-            Assert.AreEqual(expectedGameItemCount, gameBoard.gameItems.Count);
+
+            Assert.AreEqual(expectedGameMenuCount, gameContent.gameMenu.Count);
+            Assert.AreEqual(expectedGameItemCount, gameContent.gameItems.Count);
 
         }
 
@@ -41,10 +43,13 @@ namespace RPSLSGAMEver3Tests
             Player player = new Player();
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+
             var expectedPlayerPoint = 1;
             var expectedMachinePoint = 1;
 
             gameBoard.GamePointsReset(player,machine);
+
             Assert.AreNotEqual(expectedPlayerPoint, player.playerPoint);
             Assert.AreNotEqual(expectedMachinePoint, player.playerPoint);
         }
@@ -70,19 +75,25 @@ namespace RPSLSGAMEver3Tests
         [TestCase('L', 'R', "Lizard", "Rock")]
         [TestCase('P', 'L', "Paper", "Lizard")]
         [Test]
-        public void CheckChoosedItemValueGetFromGameDictionary( char keyOne, char keyTwo, string optionOne,string optionTwo )
+        public void CheckChoosedItemValueGetFromGameDictionary(char keyOne,
+                                                               char keyTwo,
+                                                               string optionOne,
+                                                               string optionTwo)
         {
             Player player = new Player();
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+
             var expectedPlayerChoosedItemValue = " ";
             var expectedMachineChoosedItemValue = " ";
-            gameBoard.LoadDictionarys();
+
             player.playerPressedkey = keyOne;
             machine.machinePressedkey = keyTwo;
             expectedPlayerChoosedItemValue = optionOne;
             expectedMachineChoosedItemValue = optionTwo;
-            gameBoard.GetChoosedItemsFromTheGameDictionary(player,machine);
+            gameBoard.GetChoosedItemsFromTheGameDictionary(player,machine,gameContent);
+
             Assert.AreEqual(expectedPlayerChoosedItemValue,player.playerChoosedOption);
             Assert.AreEqual(expectedMachineChoosedItemValue, machine.machineChoosedOption);
         }
@@ -107,20 +118,25 @@ namespace RPSLSGAMEver3Tests
         [TestCase("Lizard", "Scissor")]
         [TestCase("Lizard", "Rock")]
         [TestCase("Paper", "Lizard")]
+
         [Test]
-        public void CheckCompareChoosedItemsLoadSuccess(string optionOne, string optionTwo)
+        public void CheckCompareChoosedItemsLoadSuccess(string optionOne,
+                                                      string optionTwo)
         {
             Player player = new Player();
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
-            gameBoard.LoadDictionarys();
+            GameContent gameContent = new GameContent();
+
             var expectedChoosedItemOne = optionOne;
             var expectedChoosedItemTwo = optionTwo;
+
             player.playerChoosedOption = optionOne;
             machine.machineChoosedOption = optionTwo;
-            gameBoard.LoadCompareChoosedItemsTuple(player, machine);
-            Assert.AreEqual(expectedChoosedItemOne, gameBoard.compareChoosedItems.Item1);
-            Assert.AreEqual(expectedChoosedItemTwo, gameBoard.compareChoosedItems.Item2);
+            gameBoard.LoadCompareChoosedItemsTuple(player, machine, gameContent);
+
+            Assert.AreEqual(expectedChoosedItemOne, gameContent.compareChoosedItems.Item1);
+            Assert.AreEqual(expectedChoosedItemTwo, gameContent.compareChoosedItems.Item2);
         }
 
         [TestCase("Paper", "Rock")]
@@ -143,26 +159,33 @@ namespace RPSLSGAMEver3Tests
         [TestCase("Lizard", "Scissor")]
         [TestCase("Lizard", "Rock")]
         [TestCase("Paper", "Lizard")]
+        
         [Test]
         
-        public void CheckGameRulesSuccess(string optionOne, string optionTwo)
+        public void CheckGameRulesSuccess(string optionOne,
+                                          string optionTwo)
         {
             Player player = new Player();
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+
             var expectedPlayerPoint = 0;
             var expectedMachinePoint= 0;
+            
             player.playerChoosedOption = optionOne;
             machine.machineChoosedOption = optionTwo;
-            gameBoard.LoadCompareChoosedItemsTuple(player, machine);
-            optionOne = gameBoard.compareChoosedItems.Item1;
-            optionTwo = gameBoard.compareChoosedItems.Item2;
-            gameBoard.CheckTheRules(player, machine,optionOne,optionTwo);
+            gameBoard.LoadCompareChoosedItemsTuple(player, machine,gameContent);
+            optionOne = gameContent.compareChoosedItems.Item1;
+            optionTwo = gameContent.compareChoosedItems.Item2;
+            gameBoard.CheckTheRules(player, machine,gameContent,optionOne,optionTwo);
             expectedPlayerPoint = player.playerPoint;
             expectedMachinePoint = machine.machinePoint;
+
             Assert.AreEqual(expectedPlayerPoint, player.playerPoint);
             Assert.AreEqual(expectedMachinePoint, machine.machinePoint);
             Assert.AreNotEqual(expectedPlayerPoint, expectedMachinePoint);
         }
+
     }
 }

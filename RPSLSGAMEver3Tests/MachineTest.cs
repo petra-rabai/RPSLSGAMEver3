@@ -9,12 +9,11 @@ namespace RPSLSGAMEver3Tests
         public void CheckMachinGetValueNotNullAndGetFromTheGameDictionary()
         {
             Machine machine = new Machine();
-            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
             var machineKey = ' ';
-            gameBoard.LoadDictionarys();
-            machineKey = machine.GetMachineInput(gameBoard);
+            machineKey = machine.GetMachineInput(gameContent);
             Assert.IsNotNull(machineKey);
-            Assert.Contains(machineKey, gameBoard.gameItems.Keys);
+            Assert.Contains(machineKey, gameContent.gameItems.Keys);
         }
     }
 }

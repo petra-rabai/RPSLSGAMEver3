@@ -12,13 +12,13 @@ namespace RPSLSGAMEver3
         public string playerChoosedOption = "";
         
 
-        public char GetPlayerInput(in GameBoard gameBoard)
+        public char GetPlayerInput(in GameContent gameContent, GameBoard gameBoard)
         {
             
             ReadKeyboard();
-            while((!gameBoard.gameMenu.ContainsKey(playerPressedkey)) && (!gameBoard.gameItems.ContainsKey(playerPressedkey)))
+            while((!gameContent.gameMenu.ContainsKey(playerPressedkey)) && (!gameContent.gameItems.ContainsKey(playerPressedkey)))
             {
-                NotifyPalyerToInvalidAction(gameBoard);
+                NotifyPalyerToInvalidAction(gameBoard, gameContent);
                 ReadKeyboard();
             }
             
@@ -31,23 +31,23 @@ namespace RPSLSGAMEver3
             playerPressedkey = Char.Parse(Hitkey.Key.ToString());
         }
 
-        public void NotifyPalyerToInvalidAction(in GameBoard gameBoard)
+        public void NotifyPalyerToInvalidAction(in GameBoard gameBoard, GameContent gameContent)
         {
             
-            InvalidActionHelper(gameBoard);
-            gameBoard.WaitForUser();
+            InvalidActionHelper(gameContent);
+            gameBoard.WaitForUser(gameContent);
         }
 
-        public void InvalidActionHelper(in GameBoard gameBoard)
+        public void InvalidActionHelper(in GameContent gameContent)
         {
             
             Console.Clear();
-            Console.WriteLine("\nPlease hit a valid key: \n");
-            foreach (KeyValuePair<char, string> gameMenupair in gameBoard.gameMenu)
+            Console.WriteLine(gameContent.playerHitValidKeyMessage);
+            foreach (KeyValuePair<char, string> gameMenupair in gameContent.gameMenu)
             {
                 Console.WriteLine(gameMenupair.Key + " - " + gameMenupair.Value + "\n");
             }
-            foreach (KeyValuePair<char, string> gameItempair in gameBoard.gameItems)
+            foreach (KeyValuePair<char, string> gameItempair in gameContent.gameItems)
             {
                 Console.WriteLine(gameItempair.Key + " - " + gameItempair.Value + "\n");
             }

@@ -9,11 +9,11 @@ namespace RPSLSGAMEver3
         public int machinePoint;
         public string machineChoosedOption = "";
 
-        public char GetMachineInput(in GameBoard gameBoard)
+        public char GetMachineInput(in GameContent gameContent)
         {
             Random choose = new Random();
-            int chooseHelper = choose.Next(gameBoard.gameItems.Count);
-            char gameDictionaryKey = gameBoard.gameItems.Keys.ElementAt(chooseHelper);
+            int chooseHelper = choose.Next(gameContent.gameItems.Count);
+            char gameDictionaryKey = gameContent.gameItems.Keys.ElementAt(chooseHelper);
             machinePressedkey = gameDictionaryKey;
 
             return machinePressedkey;
