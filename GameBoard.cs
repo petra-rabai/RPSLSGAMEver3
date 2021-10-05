@@ -17,7 +17,7 @@ namespace RPSLSGAMEver3
         public void GameInitialize(in Player player, Machine machine, GameContent gameContent, GameBoard gameBoard)
         {
             Console.Clear();
-            Console.Title = gameContent.gameWelcomeMessage;
+            Console.Title = gameContent.gameTitle;
             Console.WriteLine(gameContent.gameWelcomeMessage);
             WaitForUser(gameContent);
             GetPlayerData(player, gameContent, gameBoard);
