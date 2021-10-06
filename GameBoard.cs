@@ -189,11 +189,6 @@ namespace RPSLSGAMEver3
 
         public void SaveTheResult(in Player player, Machine machine, GameContent gameContent)
         {
-            Console.Clear();
-            Console.WriteLine(gameContent.gameSaveResultGetPlayerNameMessage);
-            WaitForUser(gameContent);
-            player.playerName = Console.ReadLine();
-
             gameContent.gameResult = gameContent.playerNameMessage
                                     + player.playerName
                                     + gameContent.gamePlayerPointMessage
@@ -209,6 +204,14 @@ namespace RPSLSGAMEver3
                                       + gameContent.gameResult;
 
             File.AppendAllText(gameContent.savedDataFileName, gameContent.savedResult);
+        }
+
+        public void GetPlayerName(Player player, GameContent gameContent)
+        {
+            Console.Clear();
+            Console.WriteLine(gameContent.gameSaveResultGetPlayerNameMessage);
+            WaitForUser(gameContent);
+            player.playerName = Console.ReadLine();
         }
 
         public void GameFinalize(in Player player, Machine machine, GameContent gameContent, GameBoard gameBoard)
@@ -234,6 +237,7 @@ namespace RPSLSGAMEver3
                     GameInitialize(player,machine,gameContent,gameBoard);
                     break;
                 case "Save the Result":
+                    GetPlayerName(player, gameContent);
                     SaveTheResult(player,machine,gameContent);
                     break;
                 case "Start the Game":

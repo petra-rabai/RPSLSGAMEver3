@@ -187,5 +187,26 @@ namespace RPSLSGAMEver3Tests
             Assert.AreNotEqual(expectedPlayerPoint, expectedMachinePoint);
         }
 
+        [Test]
+        public void CheckResultSavingSuccess()
+        {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+            var expectedFileName = "";
+            var expectedFileData = "";
+            player.playerName = "Test";
+            player.playerPoint = 1;
+            player.playerChoosedOption = "Scissor";
+            machine.machinePoint = 1;
+            machine.machineChoosedOption = "Scissor";
+            gameBoard.SaveTheResult(player, machine, gameContent);
+            expectedFileName = gameContent.savedDataFileName;
+            expectedFileData = gameContent.gameResult;
+            FileAssert.Exists(expectedFileName);
+            Assert.AreEqual(expectedFileData, gameContent.gameResult);
+        }
+
     }
 }
