@@ -21,6 +21,24 @@ namespace RPSLSGAMEver3Tests
             gameContent.gameMenu.Clear();
             gameContent.gameItems.Clear();
         }
+        [TestCase('P')]
+        [TestCase('R')]
+        [TestCase('V')]
+        [TestCase('S')]
+        [TestCase('L')]
+
+        [Test]
+        public void CheckGetMachineInputSuccess( char key)
+        {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+            gameBoard.GetMachineData(machine, gameContent);
+            key = machine.machinePressedkey;
+            Assert.Contains(key, gameContent.gameItems.Keys);
+
+        }
 
         [Test]
         public void CheckDictionarysCount()
