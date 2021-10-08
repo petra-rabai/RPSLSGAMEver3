@@ -162,7 +162,7 @@ namespace RPSLSGAMEver3Tests
         
         [Test]
         
-        public void CheckGameRulesSuccess(string optionOne,
+        public void CheckGameRulesPlayerSuccess(string optionOne,
                                           string optionTwo)
         {
             Player player = new Player();
@@ -179,6 +179,54 @@ namespace RPSLSGAMEver3Tests
             optionOne = gameContent.compareChoosedItems.Item1;
             optionTwo = gameContent.compareChoosedItems.Item2;
             gameBoard.CheckTheRules(player, machine,gameContent,optionOne,optionTwo);
+            expectedPlayerPoint = player.playerPoint;
+            expectedMachinePoint = machine.machinePoint;
+
+            Assert.AreEqual(expectedPlayerPoint, player.playerPoint);
+            Assert.AreEqual(expectedMachinePoint, machine.machinePoint);
+            Assert.AreNotEqual(expectedPlayerPoint, expectedMachinePoint);
+        }
+
+        [TestCase("Paper", "Rock")]
+        [TestCase("Spock", "Rock")]
+        [TestCase("Scissor", "Paper")]
+        [TestCase("Rock", "Scissor")]
+        [TestCase("Spock", "Scissor")]
+        [TestCase("Paper", "Spock")]
+        [TestCase("Lizard", "Spock")]
+        [TestCase("Scissor", "Lizard")]
+        [TestCase("Rock", "Lizard")]
+        [TestCase("Lizard", "Paper")]
+        [TestCase("Rock", "Paper")]
+        [TestCase("Rock", "Spock")]
+        [TestCase("Paper", "Scissor")]
+        [TestCase("Scissor", "Rock")]
+        [TestCase("Scissor", "Spock")]
+        [TestCase("Spock", "Paper")]
+        [TestCase("Spock", "Lizard")]
+        [TestCase("Lizard", "Scissor")]
+        [TestCase("Lizard", "Rock")]
+        [TestCase("Paper", "Lizard")]
+
+        [Test]
+
+        public void CheckGameRulesMachineSuccess(string optionOne,
+                                          string optionTwo)
+        {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+
+            var expectedPlayerPoint = 0;
+            var expectedMachinePoint = 0;
+
+            player.playerChoosedOption = optionOne;
+            machine.machineChoosedOption = optionTwo;
+            gameBoard.LoadCompareChoosedItemsTuple(player, machine, gameContent);
+            optionOne = gameContent.compareChoosedItems.Item1;
+            optionTwo = gameContent.compareChoosedItems.Item2;
+            gameBoard.CheckTheRules(player, machine, gameContent, optionTwo, optionOne);
             expectedPlayerPoint = player.playerPoint;
             expectedMachinePoint = machine.machinePoint;
 

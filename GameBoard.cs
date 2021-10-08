@@ -85,12 +85,12 @@ namespace RPSLSGAMEver3
 
         public void CheckTheRules(in Player player, Machine machine,GameContent gameContent, string optionOne, string optionTwo)
         {
-            if (optionOne == player.playerChoosedOption && optionTwo == machine.machineChoosedOption)
+            if (optionOne == gameContent.compareChoosedItems.Item1 && optionTwo == gameContent.compareChoosedItems.Item2)
             {
                 PlayerWin(player, gameContent, optionOne);
 
             }
-            else if (optionOne == machine.machineChoosedOption && optionTwo == player.playerChoosedOption)
+            else if (optionOne == gameContent.compareChoosedItems.Item2 && optionTwo == gameContent.compareChoosedItems.Item1)
             {
                 MachineWin(machine, gameContent, optionOne);
             }
