@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using RPSLSGAMEver3;
 
 
@@ -37,6 +38,63 @@ namespace RPSLSGAMEver3Tests
             gameBoard.GetMachineData(machine, gameContent);
             key = machine.machinePressedkey;
             Assert.Contains(key, gameContent.gameItems.Keys);
+
+        }
+
+        [Test]
+        public void CheckWriteGameItemsToTheConsoleSuccess()
+        {
+            GameContent gameContent = new GameContent();
+            GameBoard gameBoard = new GameBoard();
+            gameBoard.WriteGameItemsToTheConsole(gameContent);
+        }
+
+        [Test]
+        public void CheckWriteIdentitiesEqualMessageToTheConsoleSuccess()
+        {
+            GameContent gameContent = new GameContent();
+            GameBoard gameBoard = new GameBoard();
+            gameBoard.IdentitiesEqual(gameContent);
+        }
+
+        [Test]
+        public void CheckWriteWaitForUserMessageToTheConsoleSuccess()
+        {
+            GameContent gameContent = new GameContent();
+            GameBoard gameBoard = new GameBoard();
+            gameBoard.WaitForUser(gameContent);
+        }
+
+        [Test]
+        public void CheckGameRulesApplied()
+        {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+
+            gameBoard.GameRules(player, machine, gameContent);
+        }
+
+        [Test]
+        public void CheckGameCoreLoadSuccess()
+        {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+            gameBoard.GameCore();
+        }
+
+        [Test]
+        public void CheckGetInvalidActionHelperSuccess()
+        {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+
+            gameBoard.GetInvalidActionHelper(player, gameContent);
 
         }
 

@@ -33,15 +33,13 @@ namespace RPSLSGAMEver3
 
         public void NotifyPalyerToInvalidAction(in GameBoard gameBoard, GameContent gameContent)
         {
-            
+            gameBoard.ConsoleClear();
             InvalidActionHelper(gameContent);
             gameBoard.WaitForUser(gameContent);
         }
 
         public void InvalidActionHelper(in GameContent gameContent)
         {
-            
-            Console.Clear();
             Console.WriteLine(gameContent.playerHitValidKeyMessage);
             foreach (KeyValuePair<char, string> gameMenupair in gameContent.gameMenu)
             {
