@@ -18,6 +18,7 @@ namespace RPSLSGAMEver3
             ReadKeyboard();
             while((!gameContent.gameMenu.ContainsKey(playerPressedkey)) && (!gameContent.gameItems.ContainsKey(playerPressedkey)))
             {
+                gameBoard.ConsoleClear();
                 NotifyPalyerToInvalidAction(gameBoard, gameContent);
                 ReadKeyboard();
             }
@@ -33,7 +34,6 @@ namespace RPSLSGAMEver3
 
         public void NotifyPalyerToInvalidAction(in GameBoard gameBoard, GameContent gameContent)
         {
-            gameBoard.ConsoleClear();
             InvalidActionHelper(gameContent);
             gameBoard.WaitForUser(gameContent);
         }

@@ -2,6 +2,7 @@
 using System;
 using RPSLSGAMEver3;
 using System.IO;
+using System.Collections.Generic;
 
 namespace RPSLSGAMEver3Tests
 {
@@ -13,16 +14,60 @@ namespace RPSLSGAMEver3Tests
             Player player = new Player();
             Machine machine = new Machine();
             GameContent gameContent = new GameContent();
+
             player.playerPressedkey = ' ';
             machine.machinePressedkey = ' ';
             player.playerPoint = 0;
             machine.machinePoint = 0;
             player.playerChoosedOption = " ";
             machine.machineChoosedOption = " ";
+            
             gameContent.gameMenu.Clear();
             gameContent.gameItems.Clear();
             gameContent.gameResultDirectory = " ";
         }
+
+        [Test]
+        public void CheckGameSkeletonSuccess()
+        {
+            GameContent gameContent = new GameContent();
+            GameBoard gameBoard = new GameBoard();
+
+            gameBoard.GameSkeleton();
+        }
+
+        [TestCase(1,0)]
+        [TestCase(0,1)]
+        [Test]
+        public void CheckShowGameResultSuccess( int expectedPlayerPoint, int expectedMachinePoint)
+        {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameContent gameContent = new GameContent();
+            GameBoard gameBoard = new GameBoard();
+            Tuple<string, string> testCompareChoosedItems = new Tuple<string, string>("Scissor", "Paper");
+            Dictionary<Tuple<string, string>, string> testWinner = new Dictionary<Tuple<string, string>, string>();
+
+            player.playerChoosedOption = "Scissor";
+            machine.machineChoosedOption = "Paper";
+            gameContent.compareChoosedItems = testCompareChoosedItems;
+            testWinner.Add(testCompareChoosedItems,"Scissor");
+            gameContent.winner.Add(testCompareChoosedItems, "Paper");
+            gameContent.winner[gameContent.compareChoosedItems] = testWinner[testCompareChoosedItems];
+            player.playerPoint = expectedPlayerPoint;
+            machine.machinePoint = expectedMachinePoint;
+            gameBoard.ShowGameResult(player, machine, gameContent, gameBoard);
+        }
+
+        [Test]
+        public void CheckGameFinalizeSuccess()
+        {
+            GameContent gameContent = new GameContent();
+            GameBoard gameBoard = new GameBoard();
+
+            gameBoard.GameFinalize(gameContent);
+        }
+
         [TestCase('P')]
         [TestCase('R')]
         [TestCase('V')]
@@ -32,12 +77,13 @@ namespace RPSLSGAMEver3Tests
         [Test]
         public void CheckGetMachineInputSuccess(char key)
         {
-            Player player = new Player();
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
             GameContent gameContent = new GameContent();
+
             gameBoard.GetMachineData(machine, gameContent);
             key = machine.machinePressedkey;
+
             Assert.Contains(key, gameContent.gameItems.Keys);
 
         }
@@ -47,6 +93,7 @@ namespace RPSLSGAMEver3Tests
         {
             GameContent gameContent = new GameContent();
             GameBoard gameBoard = new GameBoard();
+
             gameBoard.WriteGameItemsToTheConsole(gameContent);
         }
 
@@ -56,8 +103,10 @@ namespace RPSLSGAMEver3Tests
         {
             GameContent gameContent = new GameContent();
             GameBoard gameBoard = new GameBoard();
+
             gameContent.gameResultDirectory = expectedGameDirectory;
             gameBoard.CreateGameResultDirectory(gameContent);
+            
             DirectoryAssert.Exists(expectedGameDirectory);
             Directory.Delete(expectedGameDirectory);
         }
@@ -67,6 +116,7 @@ namespace RPSLSGAMEver3Tests
         {
             GameContent gameContent = new GameContent();
             GameBoard gameBoard = new GameBoard();
+
             gameBoard.IdentitiesEqual(gameContent);
         }
 
@@ -75,6 +125,7 @@ namespace RPSLSGAMEver3Tests
         {
             GameContent gameContent = new GameContent();
             GameBoard gameBoard = new GameBoard();
+
             gameBoard.WaitForUser(gameContent);
         }
 
@@ -93,7 +144,6 @@ namespace RPSLSGAMEver3Tests
         public void CheckGetInvalidActionHelperSuccess()
         {
             Player player = new Player();
-            Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
             GameContent gameContent = new GameContent();
 
@@ -106,6 +156,7 @@ namespace RPSLSGAMEver3Tests
         {
             GameBoard gameBoard = new GameBoard();
             GameContent gameContent = new GameContent();
+
             gameBoard.GameInitialize(gameContent);
         }
         
@@ -121,9 +172,11 @@ namespace RPSLSGAMEver3Tests
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
             GameContent gameContent = new GameContent();
+
             player.playerPressedkey = playerKey;
             machine.machinePressedkey = machineKey;
             gameBoard.CheckChoosedItemsEquality(player, machine, gameContent, gameBoard);
+            
             Assert.AreEqual(playerKey, player.playerPressedkey);
             Assert.AreEqual(machineKey, machine.machinePressedkey);
         }
@@ -132,12 +185,9 @@ namespace RPSLSGAMEver3Tests
         public void CheckDictionarysCount()
         {
             GameContent gameContent = new GameContent();
-            var expectedGameMenuCount = 0;
-            var expectedGameItemCount = 0;
-            
-            expectedGameMenuCount = 5;
-            expectedGameItemCount = 5;
-
+            var expectedGameMenuCount = 5;
+            var expectedGameItemCount = 5;
+          
             Assert.AreEqual(expectedGameMenuCount, gameContent.gameMenu.Count);
             Assert.AreEqual(expectedGameItemCount, gameContent.gameItems.Count);
 
@@ -158,6 +208,14 @@ namespace RPSLSGAMEver3Tests
 
             Assert.AreNotEqual(expectedPlayerPoint, player.playerPoint);
             Assert.AreNotEqual(expectedMachinePoint, player.playerPoint);
+        }
+
+        [Test]
+        public void CheckGameHelpSuccess()
+        {
+            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+            gameBoard.GameHelp(gameContent);
         }
 
         [TestCase('P', 'R', "Paper", "Rock")]
@@ -191,13 +249,11 @@ namespace RPSLSGAMEver3Tests
             GameBoard gameBoard = new GameBoard();
             GameContent gameContent = new GameContent();
 
-            var expectedPlayerChoosedItemValue = " ";
-            var expectedMachineChoosedItemValue = " ";
+            var expectedPlayerChoosedItemValue = optionOne;
+            var expectedMachineChoosedItemValue = optionTwo;
 
             player.playerPressedkey = keyOne;
             machine.machinePressedkey = keyTwo;
-            expectedPlayerChoosedItemValue = optionOne;
-            expectedMachineChoosedItemValue = optionTwo;
             gameBoard.GetChoosedItemsFromTheGameDictionary(player,machine,gameContent);
 
             Assert.AreEqual(expectedPlayerChoosedItemValue,player.playerChoosedOption);
@@ -348,8 +404,10 @@ namespace RPSLSGAMEver3Tests
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
             GameContent gameContent = new GameContent();
+
             var expectedFileName = "";
             var expectedFileData = "";
+            
             player.playerName = "Test";
             player.playerPoint = 1;
             player.playerChoosedOption = "Scissor";
@@ -358,6 +416,7 @@ namespace RPSLSGAMEver3Tests
             gameBoard.SaveTheResult(player, machine, gameContent);
             expectedFileName = gameContent.gameResultFullPath;
             expectedFileData = gameContent.gameResult;
+
             DirectoryAssert.Exists(gameContent.gameResultDirectory);
             FileAssert.Exists(expectedFileName);
             Assert.AreEqual(expectedFileData, gameContent.gameResult);

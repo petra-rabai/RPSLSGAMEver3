@@ -6,26 +6,24 @@ namespace RPSLSGAMEver3
 {
     public class GameBoard
     {
-       public void GameCore()
+        public void GameSkeleton()
         {
             Player player = new Player();
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
             GameContent gameContent = new GameContent();
             GameInitialize(gameContent);
-            WaitForUser(gameContent);
-            MenuNavigation(player, machine, gameContent, gameBoard);
         }
+
         public void GameInitialize(GameContent gameContent)
         {
             Console.Title = gameContent.gameTitle;
-            Console.WriteLine(gameContent.gameWelcomeMessage); 
+            Console.WriteLine(gameContent.gameWelcomeMessage);
         }
 
         public void WaitForUser(in GameContent gameContent)
         {
             Console.WriteLine(gameContent.waitForUserMessage);
-            Console.Beep();
         }
 
         public void CheckChoosedItems(in Player player, Machine machine, GameContent gameContent, GameBoard gameBoard)
@@ -132,8 +130,11 @@ namespace RPSLSGAMEver3
         public void Game(in Player player, Machine machine, GameContent gameContent, GameBoard gameBoard)
         {
             CheckChoosedItems(player, machine, gameContent, gameBoard);
+            ConsoleClear();
             ShowGameResult(player, machine, gameContent, gameBoard);
-            GameFinalize(player, machine, gameContent, gameBoard);
+            MenuNavigation(player, machine, gameContent, gameBoard);
+            GameFinalize(gameContent);
+            MenuNavigation(player, machine, gameContent, gameBoard);
         }
 
         public void WriteGameItemsToTheConsole(GameContent gameContent)
@@ -147,16 +148,14 @@ namespace RPSLSGAMEver3
             Console.WriteLine(gameContent.identiiesEqualMessage);
         }
 
-        public void GameHelp(in Player player, Machine machine, GameContent gameContent, GameBoard gameBoard)
+        public void GameHelp(in GameContent gameContent)
         {
             Console.WriteLine(gameContent.gameRulesMessage);
-            WaitForUser(gameContent);
-            MenuNavigation(player,machine,gameContent,gameBoard);
+            WaitForUser(gameContent);  
         }
 
         public void ShowGameResult(in Player player, Machine machine, GameContent gameContent, GameBoard gameBoard)
         {
-            Console.Clear();
             if (player.playerPoint > machine.machinePoint)
             {
                 Console.WriteLine(gameContent.gameWinnerMessage
@@ -182,7 +181,6 @@ namespace RPSLSGAMEver3
 
             Console.WriteLine(gameContent.gameChooseSaveTheResultOrQuitMessage);
             WaitForUser(gameContent);
-            MenuNavigation(player,machine,gameContent,gameBoard);
         }
 
         public void CreateGameResultDirectory(GameContent gameContent)
@@ -225,11 +223,10 @@ namespace RPSLSGAMEver3
             player.playerName = Console.ReadLine();
         }
 
-        public void GameFinalize(in Player player, Machine machine, GameContent gameContent, GameBoard gameBoard)
+        public void GameFinalize(in GameContent gameContent)
         {
             Console.WriteLine(gameContent.gameFinalizeMessage);
             WaitForUser(gameContent);
-            MenuNavigation(player,machine,gameContent,gameBoard);
         }
 
         public void ConsoleClear()
@@ -244,12 +241,14 @@ namespace RPSLSGAMEver3
             {
                 case "Game Help":
                     ConsoleClear();
-                    GameHelp(player,machine, gameContent,gameBoard);
+                    GameHelp(gameContent);
+                    MenuNavigation(player, machine, gameContent, gameBoard);
                     break;
                 case "Quit the Game":
                     Environment.Exit(0);
                     break;
                 case "Back to the Menu":
+                    ConsoleClear();
                     GameInitialize(gameContent);
                     break;
                 case "Save the Result":
