@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,7 +66,13 @@ namespace RPSLSGAMEver3
         public string savedResult = "";
         
         public string gameResult = "";
-        
+
+        public string gameResultDirectory = Properties.Settings.Default.FolderPath;
+
+        public string gameResultFullPath = "";
+
+        public bool gameDirectoryExists;
+
         public string savedDataFileName = "GameResult.txt";
         
         public string playerNameMessage = "\n" + "Player name: ";

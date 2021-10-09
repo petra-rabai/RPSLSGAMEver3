@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using RPSLSGAMEver3;
-
+using System.IO;
 
 namespace RPSLSGAMEver3Tests
 {
@@ -21,6 +21,7 @@ namespace RPSLSGAMEver3Tests
             machine.machineChoosedOption = " ";
             gameContent.gameMenu.Clear();
             gameContent.gameItems.Clear();
+            gameContent.gameResultDirectory = " ";
         }
         [TestCase('P')]
         [TestCase('R')]
@@ -47,6 +48,18 @@ namespace RPSLSGAMEver3Tests
             GameContent gameContent = new GameContent();
             GameBoard gameBoard = new GameBoard();
             gameBoard.WriteGameItemsToTheConsole(gameContent);
+        }
+
+        [TestCase("C:\\Test\\")]
+        [Test]
+        public void CheckCreateGameResultDirectorySuccess(string expectedGameDirectory)
+        {
+            GameContent gameContent = new GameContent();
+            GameBoard gameBoard = new GameBoard();
+            gameContent.gameResultDirectory = expectedGameDirectory;
+            gameBoard.CreateGameResultDirectory(gameContent);
+            DirectoryAssert.Exists(expectedGameDirectory);
+            Directory.Delete(expectedGameDirectory);
         }
 
         [Test]
@@ -343,8 +356,9 @@ namespace RPSLSGAMEver3Tests
             machine.machinePoint = 1;
             machine.machineChoosedOption = "Scissor";
             gameBoard.SaveTheResult(player, machine, gameContent);
-            expectedFileName = gameContent.savedDataFileName;
+            expectedFileName = gameContent.gameResultFullPath;
             expectedFileData = gameContent.gameResult;
+            DirectoryAssert.Exists(gameContent.gameResultDirectory);
             FileAssert.Exists(expectedFileName);
             Assert.AreEqual(expectedFileData, gameContent.gameResult);
         }

@@ -185,8 +185,19 @@ namespace RPSLSGAMEver3
             MenuNavigation(player,machine,gameContent,gameBoard);
         }
 
+        public void CreateGameResultDirectory(GameContent gameContent)
+        {
+            gameContent.gameDirectoryExists = Directory.Exists(gameContent.gameResultDirectory);
+            if (!gameContent.gameDirectoryExists)
+            {
+               Directory.CreateDirectory(gameContent.gameResultDirectory);
+            }
+                
+        }
+
         public void SaveTheResult(in Player player, Machine machine, GameContent gameContent)
         {
+            CreateGameResultDirectory(gameContent);
             gameContent.gameResult = gameContent.playerNameMessage
                                     + player.playerName
                                     + gameContent.gamePlayerPointMessage
@@ -201,7 +212,9 @@ namespace RPSLSGAMEver3
             gameContent.savedResult = gameContent.timeStamp
                                       + gameContent.gameResult;
 
-            File.AppendAllText(gameContent.savedDataFileName, gameContent.savedResult);
+            gameContent.gameResultFullPath = gameContent.gameResultDirectory
+                                             + gameContent.savedDataFileName;
+            File.AppendAllText(gameContent.gameResultFullPath, gameContent.savedResult);
         }
 
         public void GetPlayerName(Player player, GameContent gameContent)
