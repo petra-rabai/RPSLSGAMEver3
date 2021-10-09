@@ -77,16 +77,6 @@ namespace RPSLSGAMEver3Tests
         }
 
         [Test]
-        public void CheckGameCoreLoadSuccess()
-        {
-            Player player = new Player();
-            Machine machine = new Machine();
-            GameBoard gameBoard = new GameBoard();
-            GameContent gameContent = new GameContent();
-            gameBoard.GameCore();
-        }
-
-        [Test]
         public void CheckGetInvalidActionHelperSuccess()
         {
             Player player = new Player();
