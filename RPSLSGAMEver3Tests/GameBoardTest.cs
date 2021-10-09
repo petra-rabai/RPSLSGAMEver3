@@ -29,7 +29,7 @@ namespace RPSLSGAMEver3Tests
         [TestCase('L')]
 
         [Test]
-        public void CheckGetMachineInputSuccess( char key)
+        public void CheckGetMachineInputSuccess(char key)
         {
             Player player = new Player();
             Machine machine = new Machine();
@@ -86,6 +86,33 @@ namespace RPSLSGAMEver3Tests
 
             gameBoard.GetInvalidActionHelper(player, gameContent);
 
+        }
+
+        [Test]
+        public void CheckGameInitializeSuccess()
+        {
+            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+            gameBoard.GameInitialize(gameContent);
+        }
+        
+        [TestCase('S','S')]
+        [TestCase('P', 'P')]
+        [TestCase('R', 'R')]
+        [TestCase('L', 'L')]
+        [TestCase('V', 'V')]
+        [Test]
+        public void CheckChoosedItemsEqualitySuccess(char playerKey, char machineKey)
+        {
+            Player player = new Player();
+            Machine machine = new Machine();
+            GameBoard gameBoard = new GameBoard();
+            GameContent gameContent = new GameContent();
+            player.playerPressedkey = playerKey;
+            machine.machinePressedkey = machineKey;
+            gameBoard.CheckChoosedItemsEquality(player, machine, gameContent, gameBoard);
+            Assert.AreEqual(playerKey, player.playerPressedkey);
+            Assert.AreEqual(machineKey, machine.machinePressedkey);
         }
 
         [Test]

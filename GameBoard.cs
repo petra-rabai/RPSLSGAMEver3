@@ -12,14 +12,14 @@ namespace RPSLSGAMEver3
             Machine machine = new Machine();
             GameBoard gameBoard = new GameBoard();
             GameContent gameContent = new GameContent();
-            GameInitialize(player,machine,gameContent, gameBoard);
+            GameInitialize(gameContent);
+            WaitForUser(gameContent);
+            MenuNavigation(player, machine, gameContent, gameBoard);
         }
-        public void GameInitialize(in Player player, Machine machine, GameContent gameContent, GameBoard gameBoard)
+        public void GameInitialize(GameContent gameContent)
         {
             Console.Title = gameContent.gameTitle;
-            Console.WriteLine(gameContent.gameWelcomeMessage);
-            WaitForUser(gameContent);
-            MenuNavigation(player, machine,gameContent,gameBoard);
+            Console.WriteLine(gameContent.gameWelcomeMessage); 
         }
 
         public void WaitForUser(in GameContent gameContent)
@@ -33,7 +33,10 @@ namespace RPSLSGAMEver3
             GamePointsReset(player, machine);
             GetPlayerData(player, gameContent, gameBoard);
             GetMachineData(machine, gameContent);
+            ConsoleClear();
             CheckChoosedItemsEquality(player, machine, gameContent,gameBoard);
+            GetPlayerData(player, gameContent, gameBoard);
+            GetMachineData(machine, gameContent);
             GetChoosedItemsFromTheGameDictionary(player, machine,gameContent);
             GameRules(player, machine,gameContent);
         }
@@ -115,12 +118,9 @@ namespace RPSLSGAMEver3
         {
             if (player.playerPressedkey == machine.machinePressedkey)
             {
-                ConsoleClear();
                 IdentitiesEqual(gameContent);
                 GetInvalidActionHelper(player,gameContent);
-                WaitForUser(gameContent);
-                GetPlayerData(player,gameContent,gameBoard);
-                GetMachineData(machine,gameContent);
+                WaitForUser(gameContent);  
             }
         }
 
@@ -237,7 +237,7 @@ namespace RPSLSGAMEver3
                     Environment.Exit(0);
                     break;
                 case "Back to the Menu":
-                    GameInitialize(player,machine,gameContent,gameBoard);
+                    GameInitialize(gameContent);
                     break;
                 case "Save the Result":
                     GetPlayerName(player, gameContent);
